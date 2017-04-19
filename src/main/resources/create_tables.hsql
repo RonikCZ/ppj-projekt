@@ -1,0 +1,70 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ALLOW_INVALID_DATES';
+
+CREATE TABLE IF NOT EXISTS `mydb`.`user` (
+  `id_user` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(100) NOT NULL,
+  `user_registration` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id_user`),
+  UNIQUE INDEX `id_user_UNIQUE` (`id_user` ASC))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`image` (
+  `id_image` INT NOT NULL AUTO_INCREMENT,
+  `id_user` INT NOT NULL,
+  `url` VARCHAR(1000) NOT NULL,
+  `title` VARCHAR(100) NOT NULL,
+  `image_creation` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `image_lastedit` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `image_likes` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_image`),
+  UNIQUE INDEX `id_image_UNIQUE` (`id_image` ASC),
+  INDEX `fk_image_user_idx` (`id_user` ASC),
+  CONSTRAINT `fk_image_user`
+    FOREIGN KEY (`id_user`)
+    REFERENCES `mydb`.`user` (`id_user`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`tag` (
+  `tag_title` VARCHAR(16) NOT NULL,
+  `id_image` INT NOT NULL,
+  PRIMARY KEY (`id_image`, `tag_title`),
+  UNIQUE INDEX `title_UNIQUE` (`tag_title` ASC),
+  INDEX `fk_tag_image1_idx` (`id_image` ASC),
+  CONSTRAINT `fk_tag_image1`
+    FOREIGN KEY (`id_image`)
+    REFERENCES `mydb`.`image` (`id_image`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`comment` (
+  `id_comment` INT NOT NULL AUTO_INCREMENT,
+  `id_user` INT NOT NULL,
+  `id_image` INT NOT NULL,
+  `comment_creation` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `comment_lastedit` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `comment_likes` INT NOT NULL DEFAULT 0,
+  `text` VARCHAR(1000) NOT NULL,
+  PRIMARY KEY (`id_comment`, `id_user`, `id_image`),
+  UNIQUE INDEX `idtable1_UNIQUE` (`id_comment` ASC),
+  INDEX `fk_comment_user1_idx` (`id_user` ASC),
+  INDEX `fk_comment_image1_idx` (`id_image` ASC),
+  CONSTRAINT `fk_comment_user1`
+    FOREIGN KEY (`id_user`)
+    REFERENCES `mydb`.`user` (`id_user`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_comment_image1`
+    FOREIGN KEY (`id_image`)
+    REFERENCES `mydb`.`image` (`id_image`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

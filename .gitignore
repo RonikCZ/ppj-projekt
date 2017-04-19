@@ -1,0 +1,8 @@
+.idea/
+target/
+*.iml
+.vagrant/
+*.lck
+*.log
+*.script
+*.data
