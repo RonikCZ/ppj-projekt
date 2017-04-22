@@ -40,7 +40,7 @@ public class TagDaoTests {
         image = imageDao.getImage(image.getUrl());
 
         Tag tag = new Tag(image, "test");
-        assertTrue("Tag creation should return true", tagDao.create(tag));
+        tagDao.create(tag);
 
         Tag created = tagDao.getTag(image.getId_image(), tag.getTag_title());
         assertEquals("Returned tag from the database", tag.getTag_title(), created.getTag_title());

@@ -1,11 +1,19 @@
 package cz.karelsir.projekt.data;
 
+import javax.persistence.*;
+
 /**
  * Created by akasa on 20.1.2015.
  */
+@Entity
+@Table(name = "user")
 public class User {
 
+    @Id
+    @Column(name = "id_user")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id_user;
+
     private String username;
     private String user_registration;
 

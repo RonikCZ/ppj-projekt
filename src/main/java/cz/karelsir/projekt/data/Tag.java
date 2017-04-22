@@ -1,16 +1,26 @@
 package cz.karelsir.projekt.data;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 /**
  * Created by Ronik on 7. 4. 2017.
  */
-public class Tag {
+@Entity
+@Table(name = "tag")
+public class Tag implements Serializable {
 
+    @Id
+    @Column(name = "tag_title")
     private String tag_title;
 
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "id_image")
     private Image image;
 
     public Tag() {
-
+        this.image = new Image();
     }
 
     public Tag(Image image, String tag_title) {

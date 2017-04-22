@@ -1,10 +1,18 @@
 package cz.karelsir.projekt.data;
 
+import javax.persistence.*;
+
 /**
  * Created by Ronik on 7. 4. 2017.
  */
+
+@Entity
+@Table(name = "comment")
 public class Comment {
 
+    @Id
+    @Column(name = "id_comment")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id_comment;
 
     private String comment_creation;
@@ -12,12 +20,18 @@ public class Comment {
     private Integer comment_likes;
     private String text;
 
+    @ManyToOne
+    @JoinColumn(name = "id_user")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "id_image")
     private Image image;
 
 
     public Comment() {
-
+        this.user = new User();
+        this.image = new Image();
     }
 
     public Comment(User user, Image image, String date_creation, String date_lastedit, String text) {

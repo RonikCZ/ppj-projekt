@@ -49,7 +49,7 @@ public class CommentDaoTests {
         image = imageDao.getImage(image.getUrl());
 
         Comment comment = new Comment(commenter, image, "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
-        assertTrue("Comment creation should return true", commentDao.create(comment));
+        commentDao.create(comment);
 
         Comment created = commentDao.getComment(comment.getText());
         log.info(created.toString());
@@ -85,7 +85,6 @@ public class CommentDaoTests {
         assertEquals("Likes at 1", (int)comment.getComment_likes(), 1);
         commentDao.changeLikes(comment, false);
         assertEquals("Likes at 0 again", (int)comment.getComment_likes(), 0);
-
 
         commentDao.deleteComment(comment.getId_comment());
         imageDao.deleteImage(image.getId_image());

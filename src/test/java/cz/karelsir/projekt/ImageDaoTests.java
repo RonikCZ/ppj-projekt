@@ -39,7 +39,7 @@ public class ImageDaoTests {
         user = userDao.getUser(user.getUsername());
 
         Image image = new Image(user,"http://test", "titulek", "2008-01-01 00:00:01");
-        assertTrue("Image creation should return true", imageDao.create(image));
+        imageDao.create(image);
 
         Image created = imageDao.getImage(image.getUrl());
 

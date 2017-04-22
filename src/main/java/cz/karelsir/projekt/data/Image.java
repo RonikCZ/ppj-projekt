@@ -1,7 +1,15 @@
 package cz.karelsir.projekt.data;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "image")
 public class Image {
 
+    @Id
+    @Column(name = "id_image")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id_image;
 
     private String url;
@@ -10,10 +18,12 @@ public class Image {
     private String image_lastedit;
     private Integer image_likes;
 
+    @ManyToOne
+    @JoinColumn(name = "id_user")
     private User user;
 
     public Image() {
-
+        this.user = new User();
     }
 
     public Image(User user, String url, String title, String image_creation) {

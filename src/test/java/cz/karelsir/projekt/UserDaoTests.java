@@ -31,7 +31,7 @@ public class UserDaoTests {
 
         User user = new User("testUser", "2008-01-01 00:00:01");
 
-        assertTrue("User creation should return true", userDao.create(user));
+        userDao.create(user);
 
         assertTrue("User should exist", userDao.exists(user.getUsername()));
 
