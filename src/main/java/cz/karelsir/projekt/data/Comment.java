@@ -5,46 +5,47 @@ package cz.karelsir.projekt.data;
  */
 public class Comment {
 
-    private Integer id_comment;
+    private Integer id;
+    private Integer id_user;
+    private Integer id_image;
+
 
     private String comment_creation;
     private String comment_lastedit;
     private Integer comment_likes;
     private String text;
 
-    private User user;
-    private Image image;
 
 
     public Comment() {
 
     }
 
-    public Comment(User user, Image image, String date_creation, String date_lastedit, String text) {
-        this.user = user;
-        this.image = image;
+    public Comment(int id_user, int id_image, String date_creation, String date_lastedit, String text) {
+        this.id_user = id_user;
+        this.id_image = id_image;
         this.comment_creation = date_creation;
         this.comment_lastedit = date_lastedit;
         this.comment_likes = 0;
         this.text = text;
     }
 
-    public Comment(Integer id_comment, User user, Image image, String date_creation, String date_lastedit, Integer likes, String text) {
-        this.id_comment = id_comment;
-        this.user = user;
-        this.image = image;
+    public Comment(Integer id, int id_user, int id_image, String date_creation, String date_lastedit, Integer likes, String text) {
+        this.id = id;
+        this.id_user = id_user;
+        this.id_image = id_image;
         this.comment_creation = date_creation;
         this.comment_lastedit = date_lastedit;
         this.comment_likes = likes;
         this.text = text;
     }
 
-    public Integer getId_comment() {
-        return id_comment;
+    public Integer getId() {
+        return id;
     }
 
-    public void setId_comment(Integer id_comment) {
-        this.id_comment = id_comment;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getComment_creation() {
@@ -79,57 +80,63 @@ public class Comment {
         this.text = text;
     }
 
-    public User getUser() {
-        return user;
+    public Integer getId_user() {
+        return id_user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setId_user(Integer id_user) {
+        this.id_user = id_user;
     }
 
-    public Image getImage() {
-        return image;
+    public Integer getId_image() {
+        return id_image;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setId_image(Integer id_image) {
+        this.id_image = id_image;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comment comment = (Comment) o;
+
+        if (id != null ? !id.equals(comment.id) : comment.id != null) return false;
+        if (id_user != null ? !id_user.equals(comment.id_user) : comment.id_user != null) return false;
+        if (id_image != null ? !id_image.equals(comment.id_image) : comment.id_image != null) return false;
+        if (comment_creation != null ? !comment_creation.equals(comment.comment_creation) : comment.comment_creation != null)
+            return false;
+        if (comment_lastedit != null ? !comment_lastedit.equals(comment.comment_lastedit) : comment.comment_lastedit != null)
+            return false;
+        if (comment_likes != null ? !comment_likes.equals(comment.comment_likes) : comment.comment_likes != null)
+            return false;
+        return text != null ? text.equals(comment.text) : comment.text == null;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((text == null) ? 0 : text.hashCode());
-        result = prime * result + ((comment_creation == null) ? 0 : comment_creation.hashCode());
-        result = prime * result + ((comment_lastedit == null) ? 0 : comment_lastedit.hashCode());
-        result = prime * result + ((comment_likes == null) ? 0 : comment_likes.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        result = prime * result + ((image == null) ? 0 : image.hashCode());
-
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (id_user != null ? id_user.hashCode() : 0);
+        result = 31 * result + (id_image != null ? id_image.hashCode() : 0);
+        result = 31 * result + (comment_creation != null ? comment_creation.hashCode() : 0);
+        result = 31 * result + (comment_lastedit != null ? comment_lastedit.hashCode() : 0);
+        result = 31 * result + (comment_likes != null ? comment_likes.hashCode() : 0);
+        result = 31 * result + (text != null ? text.hashCode() : 0);
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Comment other = (Comment) obj;
-        if (id_comment == null) {
-            if (other.id_comment != null)
-                return false;
-        } else if (!id_comment.equals(other.id_comment))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "Comment [id_comment=" + id_comment + ", user=" + user + ", image=" + image +
-                ", comment_creation=" + comment_creation + ", comment_lastedit=" + comment_lastedit + ", comment_likes=" + comment_likes + ", text=" + text + "]";
+        return "Comment{" +
+                "id=" + id +
+                ", id_user=" + id_user +
+                ", id_image=" + id_image +
+                ", comment_creation='" + comment_creation + '\'' +
+                ", comment_lastedit='" + comment_lastedit + '\'' +
+                ", comment_likes=" + comment_likes +
+                ", text='" + text + '\'' +
+                '}';
     }
-
 }

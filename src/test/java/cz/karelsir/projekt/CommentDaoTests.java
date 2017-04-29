@@ -38,27 +38,25 @@ public class CommentDaoTests {
 
         User imageCreator = new User("imageCreator", "2008-01-01 00:00:01");
         userDao.create(imageCreator);
-        imageCreator = userDao.getUser(imageCreator.getUsername());
 
         User commenter = new User("commenter", "2008-01-01 00:00:01");
         userDao.create(commenter);
-        commenter = userDao.getUser(commenter.getUsername());
 
-        Image image = new Image(imageCreator,"http://test", "titulek", "2008-01-01 00:00:01");
+        Image image = new Image(imageCreator.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
         imageDao.create(image);
         image = imageDao.getImage(image.getUrl());
 
-        Comment comment = new Comment(commenter, image, "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
+        Comment comment = new Comment(commenter.getId(), image.getId(), "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
         assertTrue("Comment creation should return true", commentDao.create(comment));
 
         Comment created = commentDao.getComment(comment.getText());
         log.info(created.toString());
         assertEquals("Returned comment from the database", created.getText(), comment.getText());
 
-        commentDao.deleteComment(created.getId_comment());
-        imageDao.deleteImage(image.getId_image());
-        userDao.deleteUser(commenter.getId_user());
-        userDao.deleteUser(imageCreator.getId_user());
+        commentDao.deleteComment(created.getId());
+        imageDao.deleteImage(image.getId());
+        userDao.deleteUser(commenter.getId());
+        userDao.deleteUser(imageCreator.getId());
     }
 
     @Test
@@ -66,17 +64,15 @@ public class CommentDaoTests {
 
         User imageCreator = new User("imageCreator", "2008-01-01 00:00:01");
         userDao.create(imageCreator);
-        imageCreator = userDao.getUser(imageCreator.getUsername());
 
         User commenter = new User("commenter", "2008-01-01 00:00:01");
         userDao.create(commenter);
-        commenter = userDao.getUser(commenter.getUsername());
 
-        Image image = new Image(imageCreator,"http://test", "titulek", "2008-01-01 00:00:01");
+        Image image = new Image(imageCreator.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
         imageDao.create(image);
         image = imageDao.getImage(image.getUrl());
 
-        Comment comment = new Comment(commenter, image, "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
+        Comment comment = new Comment(commenter.getId(), image.getId(), "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
         commentDao.create(comment);
         comment = commentDao.getComment(comment.getText());
 
@@ -86,11 +82,10 @@ public class CommentDaoTests {
         commentDao.changeLikes(comment, false);
         assertEquals("Likes at 0 again", (int)comment.getComment_likes(), 0);
 
-
-        commentDao.deleteComment(comment.getId_comment());
-        imageDao.deleteImage(image.getId_image());
-        userDao.deleteUser(commenter.getId_user());
-        userDao.deleteUser(imageCreator.getId_user());
+        commentDao.deleteComment(comment.getId());
+        imageDao.deleteImage(image.getId());
+        userDao.deleteUser(commenter.getId());
+        userDao.deleteUser(imageCreator.getId());
     }
 
 

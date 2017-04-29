@@ -19,29 +19,7 @@ public class TagDao {
     public List<Tag> getTags() {
 
         return jdbc
-                .query("SELECT * FROM tag, image, user where tag.id_image=image.id_image and image.id_user=user.id_user",
-                        (ResultSet rs, int rowNum) -> {
-                            User user = new User();
-                            user.setId_user(rs.getInt("id_user"));
-                            user.setUsername(rs.getString("username"));
-                            user.setUser_registration(rs.getString("user_registration"));
-
-                            Image image = new Image();
-                            image.setId_image(rs.getInt("id_image"));
-                            image.setUrl(rs.getString("url"));
-                            image.setTitle(rs.getString("title"));
-                            image.setImage_creation(rs.getString("image_creation"));
-                            image.setImage_lastedit(rs.getString("image_lastedit"));
-                            image.setImage_likes(rs.getInt("image_likes"));
-                            image.setUser(user);
-
-                            Tag tag = new Tag();
-                            tag.setTag_title(rs.getString("tag_title"));
-                            tag.setImage(image);
-
-                            return tag;
-                        }
-                );
+                .query("SELECT * FROM tag", new TagRowMapper());
     }
 
     public boolean create(Tag tag) {
@@ -51,7 +29,7 @@ public class TagDao {
 
         return jdbc
                 .update("insert into tag (tag_title, id_image)" +
-                                "values (:tag_title, :image.id_image)",
+                                "values (:tag_title, :id_image)",
                         params) == 1;
     }
 
@@ -63,12 +41,12 @@ public class TagDao {
 
         return jdbc
                 .batchUpdate("insert into tag (tag_title, id_image)" +
-                                "values (:tag_title, :image.id_image)",
+                                "values (:tag_title, :id_image)",
                         params);
     }
 
     public boolean delete(Tag tag) {
-        MapSqlParameterSource params = new MapSqlParameterSource("id_image", tag.getImage().getId_image());
+        MapSqlParameterSource params = new MapSqlParameterSource("id_image", tag.getId_image());
         params.addValue("tag_title", tag.getTag_title());
 
         return jdbc.update("delete from tag where id_image=:id_image and tag_title=:tag_title", params) == 1;
@@ -81,39 +59,23 @@ public class TagDao {
         params.addValue("tag_title", tag_title);
 
 
-        return jdbc.queryForObject("SELECT * FROM tag, image, user where tag.id_image=image.id_image and tag.id_image=:id_image and tag_title=:tag_title and image.id_user=user.id_user", params,
-                new RowMapper<Tag>() {
-
-                    public Tag mapRow(ResultSet rs, int rowNum)
-                            throws SQLException {
-                        User user = new User();
-                        user.setId_user(rs.getInt("id_user"));
-                        user.setUsername(rs.getString("username"));
-                        user.setUser_registration(rs.getString("user_registration"));
-
-                        Image image = new Image();
-                        image.setId_image(rs.getInt("id_image"));
-                        image.setUrl(rs.getString("url"));
-                        image.setTitle(rs.getString("title"));
-                        image.setImage_creation(rs.getString("image_creation"));
-                        image.setImage_lastedit(rs.getString("image_lastedit"));
-                        image.setImage_likes(rs.getInt("image_likes"));
-                        image.setUser(user);
-
-                        Tag tag = new Tag();
-                        tag.setTag_title(rs.getString("tag_title"));
-                        tag.setImage(image);
-
-                        return tag;
-                    }
-
-                });
+        return jdbc.queryForObject("SELECT * FROM tag WHERE id_image=:id_image and tag_title=:tag_title",
+                params, new TagRowMapper());
     }
-
 
     public void deleteTags() {
         jdbc.getJdbcOperations().execute("DELETE FROM tag");
     }
 
+}
 
+class TagRowMapper implements RowMapper<Tag>
+{
+    public Tag mapRow(ResultSet rs, int rowNum) throws SQLException{
+        Tag tag = new Tag();
+        tag.setTag_title(rs.getString("tag_title"));
+        tag.setId_image(rs.getInt("id_image"));
+
+        return tag;
+    }
 }

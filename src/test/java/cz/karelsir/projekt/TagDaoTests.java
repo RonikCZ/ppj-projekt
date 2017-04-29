@@ -33,21 +33,20 @@ public class TagDaoTests {
 
         User imageCreator = new User("imageCreator", "2008-01-01 00:00:01");
         userDao.create(imageCreator);
-        imageCreator = userDao.getUser(imageCreator.getUsername());
 
-        Image image = new Image(imageCreator,"http://tag", "tagTest", "2008-01-01 00:00:01");
+        Image image = new Image(imageCreator.getId(),"http://tag", "tagTest", "2008-01-01 00:00:01");
         imageDao.create(image);
         image = imageDao.getImage(image.getUrl());
 
-        Tag tag = new Tag(image, "test");
+        Tag tag = new Tag(image.getId(), "test");
         assertTrue("Tag creation should return true", tagDao.create(tag));
 
-        Tag created = tagDao.getTag(image.getId_image(), tag.getTag_title());
+        Tag created = tagDao.getTag(image.getId(), tag.getTag_title());
         assertEquals("Returned tag from the database", tag.getTag_title(), created.getTag_title());
 
         tagDao.delete(tag);
-        imageDao.deleteImage(image.getId_image());
-        userDao.deleteUser(imageCreator.getId_user());
+        imageDao.deleteImage(image.getId());
+        userDao.deleteUser(imageCreator.getId());
     }
 }
 

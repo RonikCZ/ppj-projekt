@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -31,15 +32,15 @@ public class UserDaoTests {
 
         User user = new User("testUser", "2008-01-01 00:00:01");
 
-        assertTrue("User creation should return true", userDao.create(user));
+        assertNotEquals("Creation should affect more than 0 rows", 0, userDao.create(user));
 
         assertTrue("User should exist", userDao.exists(user.getUsername()));
 
-        User created = userDao.getUser(user.getUsername());
+        User created = userDao.getUser(user.getId());
 
-        assertEquals("Return user from the database", created.getUsername(), user.getUsername());
+        assertEquals("Returned user from the database should equal created user", created.getUsername(), user.getUsername());
 
-        userDao.deleteUser(created.getId_user());
+        userDao.deleteUser(created.getId());
     }
 
 }

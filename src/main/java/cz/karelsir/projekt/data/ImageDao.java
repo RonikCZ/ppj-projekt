@@ -20,63 +20,19 @@ public class ImageDao {
     private NamedParameterJdbcOperations jdbc;
 
     public List<Image> getImages() {
-
         return jdbc
-                .query("select * from image, user where image.id_user=user.id_user",
-                        (ResultSet rs, int rowNum) -> {
-                            User user = new User();
-                            user.setId_user(rs.getInt("id_user"));
-                            user.setUsername(rs.getString("username"));
-                            user.setUser_registration(rs.getString("user_registration"));
-
-                            Image image = new Image();
-                            image.setId_image(rs.getInt("id_image"));
-                            image.setUrl(rs.getString("url"));
-                            image.setTitle(rs.getString("title"));
-                            image.setImage_creation(rs.getString("image_creation"));
-                            image.setImage_lastedit(rs.getString("image_lastedit"));
-                            image.setImage_likes(rs.getInt("image_likes"));
-                            image.setUser(user);
-
-                            return image;
-                        }
-                );
-    }
-
-
-    public List<Image> getImages_innerjoin() {
-
-        return jdbc
-                .query("select * from image join user using (id_user)",
-                        (ResultSet rs, int rowNum) -> {
-                            User user = new User();
-                            user.setId_user(rs.getInt("id_user"));
-                            user.setUsername(rs.getString("username"));
-                            user.setUser_registration(rs.getString("user_registration"));
-
-                            Image image = new Image();
-                            image.setId_image(rs.getInt("id_image"));
-                            image.setUrl(rs.getString("url"));
-                            image.setTitle(rs.getString("title"));
-                            image.setImage_creation(rs.getString("image_creation"));
-                            image.setImage_lastedit(rs.getString("image_lastedit"));
-                            image.setImage_likes(rs.getInt("image_likes"));
-                            image.setUser(user);
-
-                            return image;
-                        }
-                );
+                .query("select * from image", new ImageRowMapper());
     }
 
     public boolean update(Image image) {
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
                 image);
-        return jdbc.update("update image set title=:title where id_image=:id_image", params) == 1;
+        return jdbc.update("update image set title=:title where id_image=:id", params) == 1;
     }
 
     public boolean changeLikes(Image image, boolean like) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id_image", image.getId_image());
+        params.addValue("id_image", image.getId());
         if (like){
             image.setImage_likes(image.getImage_likes()+1);
             params.addValue("image_likes", image.getImage_likes()+1);
@@ -93,7 +49,7 @@ public class ImageDao {
                 image);
 
         return jdbc
-                .update("insert into image (id_user, url, title, image_creation, image_lastedit) values (:user.id_user, :url, :title, :image_creation, :image_lastedit)",
+                .update("insert into image (id_user, url, title, image_creation, image_lastedit) values (:id_user, :url, :title, :image_creation, :image_lastedit)",
                         params) == 1;
     }
 
@@ -104,7 +60,7 @@ public class ImageDao {
                 .createBatch(images.toArray());
 
         return jdbc
-                .batchUpdate("insert into image (id_user, url, title, image_creation, image_lastedit) values (:user.id_user, :url, :title, :image_creation, :image_lastedit)",
+                .batchUpdate("insert into image (id_user, url, title, image_creation, image_lastedit) values (:id_user, :url, :title, :image_creation, :image_lastedit)",
                         params);
     }
 
@@ -119,29 +75,7 @@ public class ImageDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id_image", id_image);
 
-        return jdbc.queryForObject("select * from image, user where image.id_user=user.id_user and id_image=:id_image", params,
-                new RowMapper<Image>() {
-
-                    public Image mapRow(ResultSet rs, int rowNum)
-                            throws SQLException {
-                        User user = new User();
-                        user.setId_user(rs.getInt("id_user"));
-                        user.setUsername(rs.getString("username"));
-                        user.setUser_registration(rs.getString("user_registration"));
-
-                        Image image = new Image();
-                        image.setId_image(rs.getInt("id_image"));
-                        image.setUrl(rs.getString("url"));
-                        image.setTitle(rs.getString("title"));
-                        image.setImage_creation(rs.getString("image_creation"));
-                        image.setImage_lastedit(rs.getString("image_lastedit"));
-                        image.setImage_likes(rs.getInt("image_likes"));
-                        image.setUser(user);
-
-                        return image;
-                    }
-
-                });
+        return jdbc.queryForObject("select * from image where id_image=:id_image", params, new ImageRowMapper());
     }
 
     public Image getImage(String url) {
@@ -149,29 +83,7 @@ public class ImageDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("url", url);
 
-        return jdbc.queryForObject("select * from image, user where image.id_user=user.id_user and url=:url", params,
-                new RowMapper<Image>() {
-
-                    public Image mapRow(ResultSet rs, int rowNum)
-                            throws SQLException {
-                        User user = new User();
-                        user.setId_user(rs.getInt("id_user"));
-                        user.setUsername(rs.getString("username"));
-                        user.setUser_registration(rs.getString("user_registration"));
-
-                        Image image = new Image();
-                        image.setId_image(rs.getInt("id_image"));
-                        image.setUrl(rs.getString("url"));
-                        image.setTitle(rs.getString("title"));
-                        image.setImage_creation(rs.getString("image_creation"));
-                        image.setImage_lastedit(rs.getString("image_lastedit"));
-                        image.setImage_likes(rs.getInt("image_likes"));
-                        image.setUser(user);
-
-                        return image;
-                    }
-
-                });
+        return jdbc.queryForObject("select * from image where url=:url", params, new ImageRowMapper());
     }
 
     public void deleteImage(int id_image) {
@@ -180,9 +92,23 @@ public class ImageDao {
     }
 
     public void deleteImages() {
-        jdbc.getJdbcOperations().execute("DELETE FROM comment");
         jdbc.getJdbcOperations().execute("DELETE FROM image");
     }
 
+}
 
+class ImageRowMapper implements RowMapper<Image>
+{
+    public Image mapRow(ResultSet rs, int rowNum) throws SQLException{
+        Image image = new Image();
+        image.setId(rs.getInt("id_image"));
+        image.setId_user(rs.getInt("id_user"));
+        image.setUrl(rs.getString("url"));
+        image.setTitle(rs.getString("title"));
+        image.setImage_creation(rs.getString("image_creation"));
+        image.setImage_lastedit(rs.getString("image_lastedit"));
+        image.setImage_likes(rs.getInt("image_likes"));
+
+        return image;
+    }
 }

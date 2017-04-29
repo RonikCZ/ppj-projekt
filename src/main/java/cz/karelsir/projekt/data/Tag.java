@@ -7,14 +7,14 @@ public class Tag {
 
     private String tag_title;
 
-    private Image image;
+    private Integer id_image;
 
     public Tag() {
 
     }
 
-    public Tag(Image image, String tag_title) {
-        this.image = image;
+    public Tag(int id_image, String tag_title) {
+        this.id_image = id_image;
         this.tag_title = tag_title;
     }
 
@@ -26,42 +26,37 @@ public class Tag {
         this.tag_title = tag_title;
     }
 
-    public Image getImage() {
-        return image;
+    public Integer getId_image() {
+        return id_image;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setId_image(Integer id_image) {
+        this.id_image = id_image;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Tag tag = (Tag) o;
+
+        if (tag_title != null ? !tag_title.equals(tag.tag_title) : tag.tag_title != null) return false;
+        return id_image != null ? id_image.equals(tag.id_image) : tag.id_image == null;
+    }
+
+    @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((tag_title == null) ? 0 : tag_title.hashCode());
-
+        int result = tag_title != null ? tag_title.hashCode() : 0;
+        result = 31 * result + (id_image != null ? id_image.hashCode() : 0);
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Tag other = (Tag) obj;
-        if (tag_title == null) {
-            if (other.tag_title != null)
-                return false;
-        } else if (!tag_title.equals(other.tag_title))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "Tag [tag_title=" + tag_title + ", image=" + image + "]";
+        return "Tag{" +
+                "tag_title='" + tag_title + '\'' +
+                ", id_image=" + id_image +
+                '}';
     }
-
 }

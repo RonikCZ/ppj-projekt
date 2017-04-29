@@ -2,7 +2,8 @@ package cz.karelsir.projekt.data;
 
 public class Image {
 
-    private Integer id_image;
+    private Integer id;
+    private Integer id_user;
 
     private String url;
     private String title;
@@ -10,14 +11,12 @@ public class Image {
     private String image_lastedit;
     private Integer image_likes;
 
-    private User user;
-
     public Image() {
 
     }
 
-    public Image(User user, String url, String title, String image_creation) {
-        this.user = user;
+    public Image(int id_user, String url, String title, String image_creation) {
+        this.id_user = id_user;
         this.url = url;
         this.title = title;
         this.image_creation = image_creation;
@@ -25,9 +24,9 @@ public class Image {
         this.image_likes = 0;
     }
 
-    public Image(int id_image, User user, String url, String title, String image_creation, String date_lastedit, Integer likes) {
-        this.id_image = id_image;
-        this.user = user;
+    public Image(int id, int id_user, String url, String title, String image_creation, String date_lastedit, Integer likes) {
+        this.id = id;
+        this.id_user = id_user;
         this.url = url;
         this.title = title;
         this.image_creation = image_creation;
@@ -35,8 +34,8 @@ public class Image {
         this.image_likes = likes;
     }
 
-    public Integer getId_image() {
-        return id_image;
+    public Integer getId() {
+        return id;
     }
 
     public String getUrl() {
@@ -59,12 +58,8 @@ public class Image {
         return image_likes;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setId_image(Integer id_image) {
-        this.id_image = id_image;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setUrl(String url) {
@@ -87,47 +82,54 @@ public class Image {
         this.image_likes = image_likes;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public Integer getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(Integer id_user) {
+        this.id_user = id_user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Image image = (Image) o;
+
+        if (id != null ? !id.equals(image.id) : image.id != null) return false;
+        if (id_user != null ? !id_user.equals(image.id_user) : image.id_user != null) return false;
+        if (url != null ? !url.equals(image.url) : image.url != null) return false;
+        if (title != null ? !title.equals(image.title) : image.title != null) return false;
+        if (image_creation != null ? !image_creation.equals(image.image_creation) : image.image_creation != null)
+            return false;
+        if (image_lastedit != null ? !image_lastedit.equals(image.image_lastedit) : image.image_lastedit != null)
+            return false;
+        return image_likes != null ? image_likes.equals(image.image_likes) : image.image_likes == null;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((url == null) ? 0 : url.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + ((image_creation == null) ? 0 : image_creation.hashCode());
-        result = prime * result + ((image_lastedit == null) ? 0 : image_lastedit.hashCode());
-        result = prime * result + ((image_likes == null) ? 0 : image_likes.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (id_user != null ? id_user.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (image_creation != null ? image_creation.hashCode() : 0);
+        result = 31 * result + (image_lastedit != null ? image_lastedit.hashCode() : 0);
+        result = 31 * result + (image_likes != null ? image_likes.hashCode() : 0);
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Image other = (Image) obj;
-        if (id_image == null) {
-            if (other.id_image != null)
-                return false;
-        } else if (!id_image.equals(other.id_image))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "Image [id_image=" + id_image + ", user=" + user + ", url=" + url + ", title=" + title +
-                ", image_creation=" + image_creation + ", image_lastedit=" + image_lastedit + ", image_likes=" + image_likes + "]";
+        return "Image{" +
+                "id=" + id +
+                ", id_user=" + id_user +
+                ", url='" + url + '\'' +
+                ", title='" + title + '\'' +
+                ", image_creation='" + image_creation + '\'' +
+                ", image_lastedit='" + image_lastedit + '\'' +
+                ", image_likes=" + image_likes +
+                '}';
     }
-
-
-
 }
