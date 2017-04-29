@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -44,13 +45,11 @@ public class CommentDaoTests {
 
         Image image = new Image(imageCreator.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
         imageDao.create(image);
-        image = imageDao.getImage(image.getUrl());
 
         Comment comment = new Comment(commenter.getId(), image.getId(), "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
-        assertTrue("Comment creation should return true", commentDao.create(comment));
+        assertNotEquals("Creation should affect more than 0 rows", 0, commentDao.create(comment));
 
-        Comment created = commentDao.getComment(comment.getText());
-        log.info(created.toString());
+        Comment created = commentDao.getComment(comment.getId());
         assertEquals("Returned comment from the database", created.getText(), comment.getText());
 
         commentDao.deleteComment(created.getId());
@@ -70,11 +69,9 @@ public class CommentDaoTests {
 
         Image image = new Image(imageCreator.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
         imageDao.create(image);
-        image = imageDao.getImage(image.getUrl());
 
         Comment comment = new Comment(commenter.getId(), image.getId(), "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
         commentDao.create(comment);
-        comment = commentDao.getComment(comment.getText());
 
         assertEquals("Likes at 0", (int)comment.getComment_likes(), 0);
         commentDao.changeLikes(comment, true);

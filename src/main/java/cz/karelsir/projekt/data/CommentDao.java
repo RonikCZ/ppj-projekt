@@ -3,6 +3,7 @@ package cz.karelsir.projekt.data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.*;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
@@ -17,6 +18,38 @@ public class CommentDao {
     @Autowired
     private NamedParameterJdbcOperations jdbc;
 
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    private final static String CREATE_SQL = "insert into comment (id_user, id_image, comment_creation, comment_lastedit, comment_likes, text)" +
+            "values (:id_user, :id_image, :comment_creation, :comment_lastedit, :comment_likes, :text)";
+
+    @Transactional
+    public long create(Comment comment) {
+        GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
+                comment);
+
+        int numberOfAffectedRows = namedParameterJdbcTemplate.update(CREATE_SQL,
+                params,
+                generatedKeyHolder);
+
+        comment.setId(generatedKeyHolder.getKey().intValue());
+        return numberOfAffectedRows == 1 ? generatedKeyHolder.getKey().longValue() : -1L;
+    }
+
+    @Transactional
+    public int create(List<Comment> comments) {
+        int numberOfAffectedRows = 0;
+        for (Comment comment:comments
+                ) {
+            numberOfAffectedRows+=create(comment);
+        }
+        return numberOfAffectedRows;
+
+    }
+
     public List<Comment> getComments() {
 
         return jdbc
@@ -30,16 +63,6 @@ public class CommentDao {
         return jdbc.update("update comment set text=:text where id_comment=:id_comment", params) == 1;
     }
 
-    public boolean create(Comment comment) {
-
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
-                comment);
-
-        return jdbc
-                .update("insert into comment (id_user, id_image, comment_creation, comment_lastedit, comment_likes, text)" +
-                                "values (:id_user, :id_image, :comment_creation, :comment_lastedit, :comment_likes, :text)",
-                        params) == 1;
-    }
 
     public boolean changeLikes(Comment comment, boolean like) {
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -52,18 +75,6 @@ public class CommentDao {
             params.addValue("comment_likes", comment.getComment_likes()-1);
         }
         return jdbc.update("update comment set comment_likes=:comment_likes where id_comment=:id_comment", params) == 1;
-    }
-
-    @Transactional
-    public int[] create(List<Comment> comments) {
-
-        SqlParameterSource[] params = SqlParameterSourceUtils
-                .createBatch(comments.toArray());
-
-        return jdbc
-                .batchUpdate("insert into comment (id_user, id_image, comment_creation, comment_lastedit, comment_likes, text)" +
-                                "values (:id_user, :id_image, :comment_creation, :comment_lastedit, :comment_likes, :text)",
-                        params);
     }
 
     public void deleteComment(int id_comment) {

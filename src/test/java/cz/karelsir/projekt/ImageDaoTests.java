@@ -40,7 +40,7 @@ public class ImageDaoTests {
         Image image = new Image(user.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
         assertNotEquals("Creation should affect more than 0 rows", 0, imageDao.create(image));
 
-        Image created = imageDao.getImage(image.getUrl());
+        Image created = imageDao.getImage(image.getId());
 
         assertEquals("Returned image from the database", created.getUrl(), image.getUrl());
 
