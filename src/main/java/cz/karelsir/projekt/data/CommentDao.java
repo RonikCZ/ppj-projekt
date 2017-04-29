@@ -6,12 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -38,14 +34,15 @@ public class CommentDao {
     }
 
     public void create(Comment comment) {
-        session().save(comment);
+        Integer id = (Integer) session().save(comment);
+        comment.setId(id);
     }
 
     public void changeLikes(Comment comment, boolean like) {
         if (like){
-            comment.setComment_likes(comment.getComment_likes()+1);
+            comment.setLikes(comment.getLikes()+1);
         }else{
-            comment.setComment_likes(comment.getComment_likes()-1);
+            comment.setLikes(comment.getLikes()-1);
         }
         update(comment);
     }

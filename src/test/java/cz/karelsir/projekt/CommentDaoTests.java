@@ -45,14 +45,13 @@ public class CommentDaoTests {
         Image image = new Image(imageCreator,"http://test", "titulek");
         imageDao.create(image);
 
-        Comment comment = new Comment(commenter, image, "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
+        Comment comment = new Comment(commenter, image,"test");
         commentDao.create(comment);
 
-        Comment created = commentDao.getComment(comment.getText());
-        log.info(created.toString());
+        Comment created = commentDao.getComment(comment.getId());
         assertEquals("Returned comment from the database", created.getText(), comment.getText());
 
-        commentDao.deleteComment(created.getId_comment());
+        commentDao.deleteComment(created.getId());
         imageDao.deleteImage(image.getId());
         userDao.deleteUser(commenter.getId());
         userDao.deleteUser(imageCreator.getId());
@@ -70,17 +69,16 @@ public class CommentDaoTests {
         Image image = new Image(imageCreator,"http://test", "titulek");
         imageDao.create(image);
 
-        Comment comment = new Comment(commenter, image, "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
+        Comment comment = new Comment(commenter, image, "test");
         commentDao.create(comment);
-        comment = commentDao.getComment(comment.getText());
 
-        assertEquals("Likes at 0", (int)comment.getComment_likes(), 0);
+        assertEquals("Likes at 0", (int)comment.getLikes(), 0);
         commentDao.changeLikes(comment, true);
-        assertEquals("Likes at 1", (int)comment.getComment_likes(), 1);
+        assertEquals("Likes at 1", (int)comment.getLikes(), 1);
         commentDao.changeLikes(comment, false);
-        assertEquals("Likes at 0 again", (int)comment.getComment_likes(), 0);
+        assertEquals("Likes at 0 again", (int)comment.getLikes(), 0);
 
-        commentDao.deleteComment(comment.getId_comment());
+        commentDao.deleteComment(comment.getId());
         imageDao.deleteImage(image.getId());
         userDao.deleteUser(commenter.getId());
         userDao.deleteUser(imageCreator.getId());

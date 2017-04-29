@@ -42,15 +42,15 @@ CREATE TABLE IF NOT EXISTS `mydb`.`tag` (
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`comment` (
-  `id_comment` INT NOT NULL AUTO_INCREMENT,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `id` INT NOT NULL,
   `id` INT NOT NULL,
-  `comment_creation` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `comment_lastedit` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `comment_likes` INT NOT NULL DEFAULT 0,
+  `dateCreation` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `dateLastEdit` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `likes` INT NOT NULL DEFAULT 0,
   `text` VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (`id_comment`, `id`, `id`),
-  UNIQUE INDEX `idtable1_UNIQUE` (`id_comment` ASC),
+  PRIMARY KEY (`id`, `id`, `id`),
+  UNIQUE INDEX `idtable1_UNIQUE` (`id` ASC),
   INDEX `fk_comment_user1_idx` (`id` ASC),
   INDEX `fk_comment_image1_idx` (`id` ASC),
   CONSTRAINT `fk_comment_user1`

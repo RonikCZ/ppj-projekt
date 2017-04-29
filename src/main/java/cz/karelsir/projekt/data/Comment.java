@@ -1,6 +1,7 @@
 package cz.karelsir.projekt.data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * Created by Ronik on 7. 4. 2017.
@@ -13,11 +14,14 @@ public class Comment {
     @Id
     @Column(name = "id_comment")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id_comment;
+    private Integer id;
 
-    private String comment_creation;
-    private String comment_lastedit;
-    private Integer comment_likes;
+    @Column(name = "comment_creation")
+    private LocalDateTime dateCreation;
+    @Column(name = "comment_lastedit")
+    private LocalDateTime dateLastEdit;
+    @Column(name = "comment_likes")
+    private Integer likes;
     private String text;
 
     @ManyToOne
@@ -34,55 +38,55 @@ public class Comment {
         this.image = new Image();
     }
 
-    public Comment(User user, Image image, String date_creation, String date_lastedit, String text) {
+    public Comment(User user, Image image, String text) {
         this.user = user;
         this.image = image;
-        this.comment_creation = date_creation;
-        this.comment_lastedit = date_lastedit;
-        this.comment_likes = 0;
+        this.dateCreation = LocalDateTime.now();
+        this.dateLastEdit = this.dateCreation;
+        this.likes = 0;
         this.text = text;
     }
 
-    public Comment(Integer id_comment, User user, Image image, String date_creation, String date_lastedit, Integer likes, String text) {
-        this.id_comment = id_comment;
+    public Comment(Integer id, User user, Image image, LocalDateTime date_creation, LocalDateTime date_lastedit, Integer likes, String text) {
+        this.id = id;
         this.user = user;
         this.image = image;
-        this.comment_creation = date_creation;
-        this.comment_lastedit = date_lastedit;
-        this.comment_likes = likes;
+        this.dateCreation = dateCreation;
+        this.dateLastEdit = dateLastEdit;
+        this.likes = likes;
         this.text = text;
     }
 
-    public Integer getId_comment() {
-        return id_comment;
+    public Integer getId() {
+        return id;
     }
 
-    public void setId_comment(Integer id_comment) {
-        this.id_comment = id_comment;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getComment_creation() {
-        return comment_creation;
+    public LocalDateTime getDateCreation() {
+        return dateCreation;
     }
 
-    public void setComment_creation(String comment_creation) {
-        this.comment_creation = comment_creation;
+    public void setDateCreation(LocalDateTime dateCreation) {
+        this.dateCreation = dateCreation;
     }
 
-    public String getComment_lastedit() {
-        return comment_lastedit;
+    public LocalDateTime getDateLastEdit() {
+        return dateLastEdit;
     }
 
-    public void setComment_lastedit(String comment_lastedit) {
-        this.comment_lastedit = comment_lastedit;
+    public void setDateLastEdit(LocalDateTime dateLastEdit) {
+        this.dateLastEdit = dateLastEdit;
     }
 
-    public Integer getComment_likes() {
-        return comment_likes;
+    public Integer getLikes() {
+        return likes;
     }
 
-    public void setComment_likes(Integer comment_likes) {
-        this.comment_likes = comment_likes;
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 
     public String getText() {
@@ -110,40 +114,45 @@ public class Comment {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((text == null) ? 0 : text.hashCode());
-        result = prime * result + ((comment_creation == null) ? 0 : comment_creation.hashCode());
-        result = prime * result + ((comment_lastedit == null) ? 0 : comment_lastedit.hashCode());
-        result = prime * result + ((comment_likes == null) ? 0 : comment_likes.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        result = prime * result + ((image == null) ? 0 : image.hashCode());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Comment comment = (Comment) o;
+
+        if (id != null ? !id.equals(comment.id) : comment.id != null) return false;
+        if (dateCreation != null ? !dateCreation.equals(comment.dateCreation) : comment.dateCreation != null)
+            return false;
+        if (dateLastEdit != null ? !dateLastEdit.equals(comment.dateLastEdit) : comment.dateLastEdit != null)
+            return false;
+        if (likes != null ? !likes.equals(comment.likes) : comment.likes != null) return false;
+        if (text != null ? !text.equals(comment.text) : comment.text != null) return false;
+        if (user != null ? !user.equals(comment.user) : comment.user != null) return false;
+        return image != null ? image.equals(comment.image) : comment.image == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (dateCreation != null ? dateCreation.hashCode() : 0);
+        result = 31 * result + (dateLastEdit != null ? dateLastEdit.hashCode() : 0);
+        result = 31 * result + (likes != null ? likes.hashCode() : 0);
+        result = 31 * result + (text != null ? text.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Comment other = (Comment) obj;
-        if (id_comment == null) {
-            if (other.id_comment != null)
-                return false;
-        } else if (!id_comment.equals(other.id_comment))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "Comment [id_comment=" + id_comment + ", user=" + user + ", image=" + image +
-                ", comment_creation=" + comment_creation + ", comment_lastedit=" + comment_lastedit + ", comment_likes=" + comment_likes + ", text=" + text + "]";
+        return "Comment{" +
+                "id=" + id +
+                ", dateCreation=" + dateCreation +
+                ", dateLastEdit=" + dateLastEdit +
+                ", likes=" + likes +
+                ", text='" + text + '\'' +
+                ", user=" + user +
+                ", image=" + image +
+                '}';
     }
-
 }
