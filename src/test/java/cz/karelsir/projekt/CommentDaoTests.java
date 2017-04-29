@@ -43,7 +43,7 @@ public class CommentDaoTests {
         User commenter = new User("commenter");
         userDao.create(commenter);
 
-        Image image = new Image(imageCreator.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
+        Image image = new Image(imageCreator.getId(),"http://test", "titulek");
         imageDao.create(image);
 
         Comment comment = new Comment(commenter.getId(), image.getId(), "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
@@ -67,7 +67,7 @@ public class CommentDaoTests {
         User commenter = new User("commenter");
         userDao.create(commenter);
 
-        Image image = new Image(imageCreator.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
+        Image image = new Image(imageCreator.getId(),"http://test", "titulek");
         imageDao.create(image);
 
         Comment comment = new Comment(commenter.getId(), image.getId(), "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");

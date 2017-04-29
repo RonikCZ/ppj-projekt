@@ -1,5 +1,7 @@
 package cz.karelsir.projekt.data;
 
+import java.time.LocalDateTime;
+
 public class Image {
 
     private Integer id;
@@ -7,24 +9,24 @@ public class Image {
 
     private String url;
     private String title;
-    private String image_creation;
-    private String image_lastedit;
+    private LocalDateTime image_creation;
+    private LocalDateTime image_lastedit;
     private Integer image_likes;
 
     public Image() {
 
     }
 
-    public Image(int id_user, String url, String title, String image_creation) {
+    public Image(int id_user, String url, String title) {
         this.id_user = id_user;
         this.url = url;
         this.title = title;
-        this.image_creation = image_creation;
-        this.image_lastedit = image_creation;
+        this.image_creation = LocalDateTime.now();
+        this.image_lastedit = this.image_creation;
         this.image_likes = 0;
     }
 
-    public Image(int id, int id_user, String url, String title, String image_creation, String date_lastedit, Integer likes) {
+    public Image(int id, int id_user, String url, String title, LocalDateTime image_creation, LocalDateTime date_lastedit, Integer likes) {
         this.id = id;
         this.id_user = id_user;
         this.url = url;
@@ -38,48 +40,8 @@ public class Image {
         return id;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getImage_creation() {
-        return image_creation;
-    }
-
-    public String getImage_lastedit() {
-        return image_lastedit;
-    }
-
-    public Integer getImage_likes() {
-        return image_likes;
-    }
-
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setImage_creation(String image_creation) {
-        this.image_creation = image_creation;
-    }
-
-    public void setImage_lastedit(String image_lastedit) {
-        this.image_lastedit = image_lastedit;
-    }
-
-    public void setImage_likes(Integer image_likes) {
-        this.image_likes = image_likes;
     }
 
     public Integer getId_user() {
@@ -88,6 +50,46 @@ public class Image {
 
     public void setId_user(Integer id_user) {
         this.id_user = id_user;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public LocalDateTime getImage_creation() {
+        return image_creation;
+    }
+
+    public void setImage_creation(LocalDateTime image_creation) {
+        this.image_creation = image_creation;
+    }
+
+    public LocalDateTime getImage_lastedit() {
+        return image_lastedit;
+    }
+
+    public void setImage_lastedit(LocalDateTime image_lastedit) {
+        this.image_lastedit = image_lastedit;
+    }
+
+    public Integer getImage_likes() {
+        return image_likes;
+    }
+
+    public void setImage_likes(Integer image_likes) {
+        this.image_likes = image_likes;
     }
 
     @Override

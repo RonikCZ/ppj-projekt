@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -29,8 +31,14 @@ public class ImageDao {
     public long create(Image image) {
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
-                image);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("id_user", image.getId_user());
+        params.addValue("url", image.getUrl());
+        params.addValue("title", image.getTitle());
+        params.addValue("image_creation", Timestamp.valueOf(image.getImage_creation()));
+        params.addValue("image_lastedit", Timestamp.valueOf(image.getImage_lastedit()));
+        params.addValue("image_likes", image.getImage_likes());
 
         int numberOfAffectedRows = namedParameterJdbcTemplate.update(CREATE_SQL,
                 params,
@@ -56,9 +64,19 @@ public class ImageDao {
     }
 
     public boolean update(Image image) {
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
-                image);
-        return jdbc.update("update image set title=:title where id_image=:id", params) == 1;
+        image.setImage_lastedit(LocalDateTime.now());
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("id", image.getId());
+        params.addValue("id_user", image.getId_user());
+        params.addValue("url", image.getUrl());
+        params.addValue("title", image.getTitle());
+        params.addValue("image_creation", Timestamp.valueOf(image.getImage_creation()));
+        params.addValue("image_lastedit", Timestamp.valueOf(image.getImage_lastedit()));
+        params.addValue("image_likes", image.getImage_likes());
+
+        return jdbc.update("update image set url=:url, title=:title, image_lastedit=:image_lastedit where id_image=:id", params) == 1;
     }
 
     public boolean changeLikes(Image image, boolean like) {
@@ -115,8 +133,8 @@ class ImageRowMapper implements RowMapper<Image>
         image.setId_user(rs.getInt("id_user"));
         image.setUrl(rs.getString("url"));
         image.setTitle(rs.getString("title"));
-        image.setImage_creation(rs.getString("image_creation"));
-        image.setImage_lastedit(rs.getString("image_lastedit"));
+        image.setImage_creation(rs.getTimestamp("image_creation").toLocalDateTime());
+        image.setImage_lastedit(rs.getTimestamp("image_lastedit").toLocalDateTime());
         image.setImage_likes(rs.getInt("image_likes"));
 
         return image;

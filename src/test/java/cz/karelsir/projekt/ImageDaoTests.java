@@ -37,7 +37,7 @@ public class ImageDaoTests {
         User user = new User("imageCreator");
         userDao.create(user);
 
-        Image image = new Image(user.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
+        Image image = new Image(user.getId(),"http://test", "titulek");
         assertNotEquals("Creation should affect more than 0 rows", 0, imageDao.create(image));
 
         Image created = imageDao.getImage(image.getId());
@@ -54,7 +54,7 @@ public class ImageDaoTests {
         User creator = new User("imageCreator");
         userDao.create(creator);
 
-        Image image = new Image(creator.getId(),"http://liketest", "like", "2008-01-01 00:00:01");
+        Image image = new Image(creator.getId(),"http://liketest", "like");
         imageDao.create(image);
 
         assertEquals("Likes at 0", (int)image.getImage_likes(), 0);
@@ -73,7 +73,7 @@ public class ImageDaoTests {
         User creator = new User("imageCreator");
         userDao.create(creator);
 
-        Image image = new Image(creator.getId(),"http://liketest", "original", "2008-01-01 00:00:01");
+        Image image = new Image(creator.getId(),"http://liketest", "original");
         imageDao.create(image);
         image = imageDao.getImage(image.getUrl());
 
