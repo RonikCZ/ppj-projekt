@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class UserDao {
@@ -29,7 +30,7 @@ public class UserDao {
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         params.addValue("username", user.getUsername());
-        params.addValue("user_registration", user.getUser_registration());
+        params.addValue("user_registration", Timestamp.valueOf(user.getUser_registration()));
 
         int numberOfAffectedRows = namedParameterJdbcTemplate.update(CREATE_SQL,
                 params,
@@ -79,7 +80,7 @@ class UserRowMapper implements RowMapper<User>
         User user = new User();
         user.setId(rs.getInt("id_user"));
         user.setUsername(rs.getString("username"));
-        user.setUser_registration(rs.getString("user_registration"));
+        user.setUser_registration(rs.getTimestamp("user_registration").toLocalDateTime());
         return user;
     }
 }

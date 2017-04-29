@@ -1,5 +1,7 @@
 package cz.karelsir.projekt.data;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by akasa on 20.1.2015.
  */
@@ -7,28 +9,28 @@ public class User {
 
     private Integer id;
     private String username;
-    private String user_registration;
+    private LocalDateTime user_registration;
 
     public User() {
 
     }
 
-    public User(int id, String username, String user_registration) {
+    public User(int id, String username, LocalDateTime user_registration) {
         this.id = id;
         this.username = username;
         this.user_registration = user_registration;
     }
 
-    public User(String username, String user_registration) {
+    public User(String username) {
         this.username = username;
-        this.user_registration = user_registration;
+        this.user_registration = LocalDateTime.now();
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,11 +42,11 @@ public class User {
         this.username = username;
     }
 
-    public String getUser_registration() {
+    public LocalDateTime getUser_registration() {
         return user_registration;
     }
 
-    public void setUser_registration(String user_registration) {
+    public void setUser_registration(LocalDateTime user_registration) {
         this.user_registration = user_registration;
     }
 

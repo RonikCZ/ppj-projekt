@@ -31,7 +31,7 @@ public class TagDaoTests {
     @Test
     public void testCreateTag() {
 
-        User imageCreator = new User("imageCreator", "2008-01-01 00:00:01");
+        User imageCreator = new User("imageCreator");
         userDao.create(imageCreator);
 
         Image image = new Image(imageCreator.getId(),"http://tag", "tagTest", "2008-01-01 00:00:01");

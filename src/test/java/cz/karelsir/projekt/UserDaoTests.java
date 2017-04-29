@@ -30,7 +30,7 @@ public class UserDaoTests {
     @Test
     public void testCreateUser() {
 
-        User user = new User("testUser", "2008-01-01 00:00:01");
+        User user = new User("testUser");
 
         assertNotEquals("Creation should affect more than 0 rows", 0, userDao.create(user));
 

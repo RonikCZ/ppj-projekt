@@ -34,7 +34,7 @@ public class ImageDaoTests {
     @Test
     public void testCreateImage() {
 
-        User user = new User("imageCreator", "2008-01-01 00:00:01");
+        User user = new User("imageCreator");
         userDao.create(user);
 
         Image image = new Image(user.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
@@ -51,7 +51,7 @@ public class ImageDaoTests {
     @Test
     public void testLikeDislike() {
 
-        User creator = new User("imageCreator", "2008-01-01 00:00:01");
+        User creator = new User("imageCreator");
         userDao.create(creator);
 
         Image image = new Image(creator.getId(),"http://liketest", "like", "2008-01-01 00:00:01");
@@ -70,7 +70,7 @@ public class ImageDaoTests {
     @Test
     public void testChangeImage() {
 
-        User creator = new User("imageCreator", "2008-01-01 00:00:01");
+        User creator = new User("imageCreator");
         userDao.create(creator);
 
         Image image = new Image(creator.getId(),"http://liketest", "original", "2008-01-01 00:00:01");

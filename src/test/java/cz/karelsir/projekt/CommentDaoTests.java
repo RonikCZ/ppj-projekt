@@ -37,10 +37,10 @@ public class CommentDaoTests {
     @Test
     public void testCreateComment() {
 
-        User imageCreator = new User("imageCreator", "2008-01-01 00:00:01");
+        User imageCreator = new User("imageCreator");
         userDao.create(imageCreator);
 
-        User commenter = new User("commenter", "2008-01-01 00:00:01");
+        User commenter = new User("commenter");
         userDao.create(commenter);
 
         Image image = new Image(imageCreator.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
@@ -61,10 +61,10 @@ public class CommentDaoTests {
     @Test
     public void testLikeDislikeComment() {
 
-        User imageCreator = new User("imageCreator", "2008-01-01 00:00:01");
+        User imageCreator = new User("imageCreator");
         userDao.create(imageCreator);
 
-        User commenter = new User("commenter", "2008-01-01 00:00:01");
+        User commenter = new User("commenter");
         userDao.create(commenter);
 
         Image image = new Image(imageCreator.getId(),"http://test", "titulek", "2008-01-01 00:00:01");
