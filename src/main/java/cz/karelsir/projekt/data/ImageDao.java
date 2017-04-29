@@ -7,6 +7,7 @@ package cz.karelsir.projekt.data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.*;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
@@ -18,6 +19,36 @@ public class ImageDao {
 
     @Autowired
     private NamedParameterJdbcOperations jdbc;
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    private final static String CREATE_SQL = "insert into image (id_user, url, title, image_creation, image_lastedit) values (:id_user, :url, :title, :image_creation, :image_lastedit)";
+
+    @Transactional
+    public long create(Image image) {
+        GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
+
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
+                image);
+
+        int numberOfAffectedRows = namedParameterJdbcTemplate.update(CREATE_SQL,
+                params,
+                generatedKeyHolder);
+
+        image.setId(generatedKeyHolder.getKey().intValue());
+        return numberOfAffectedRows == 1 ? generatedKeyHolder.getKey().longValue() : -1L;
+    }
+
+    @Transactional
+    public int create(List<Image> images) {
+        int numberOfAffectedRows = 0;
+        for (Image image:images
+             ) {
+            numberOfAffectedRows+=create(image);
+        }
+        return numberOfAffectedRows;
+    }
 
     public List<Image> getImages() {
         return jdbc
@@ -41,27 +72,6 @@ public class ImageDao {
             params.addValue("image_likes", image.getImage_likes()-1);
         }
         return jdbc.update("update image set image_likes=:image_likes where id_image=:id_image", params) == 1;
-    }
-
-    public boolean create(Image image) {
-
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
-                image);
-
-        return jdbc
-                .update("insert into image (id_user, url, title, image_creation, image_lastedit) values (:id_user, :url, :title, :image_creation, :image_lastedit)",
-                        params) == 1;
-    }
-
-    @Transactional
-    public int[] create(List<Image> images) {
-
-        SqlParameterSource[] params = SqlParameterSourceUtils
-                .createBatch(images.toArray());
-
-        return jdbc
-                .batchUpdate("insert into image (id_user, url, title, image_creation, image_lastedit) values (:id_user, :url, :title, :image_creation, :image_lastedit)",
-                        params);
     }
 
     public boolean delete(int id_image) {
