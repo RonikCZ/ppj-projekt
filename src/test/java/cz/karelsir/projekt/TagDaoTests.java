@@ -35,18 +35,18 @@ public class TagDaoTests {
         userDao.create(imageCreator);
         imageCreator = userDao.getUser(imageCreator.getUsername());
 
-        Image image = new Image(imageCreator,"http://tag", "tagTest", "2008-01-01 00:00:01");
+        Image image = new Image(imageCreator,"http://tag", "tagTest");
         imageDao.create(image);
         image = imageDao.getImage(image.getUrl());
 
         Tag tag = new Tag(image, "test");
         tagDao.create(tag);
 
-        Tag created = tagDao.getTag(image.getId_image(), tag.getTag_title());
+        Tag created = tagDao.getTag(image.getId(), tag.getTag_title());
         assertEquals("Returned tag from the database", tag.getTag_title(), created.getTag_title());
 
         tagDao.delete(tag);
-        imageDao.deleteImage(image.getId_image());
+        imageDao.deleteImage(image.getId());
         userDao.deleteUser(imageCreator.getId());
     }
 }

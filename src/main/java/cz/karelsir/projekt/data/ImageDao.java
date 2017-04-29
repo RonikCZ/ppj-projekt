@@ -10,12 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Transactional
@@ -40,9 +36,9 @@ public class ImageDao {
 
     public void changeLikes(Image image, boolean like) {
         if (like){
-            image.setImage_likes(image.getImage_likes()+1);
+            image.setLikes(image.getLikes()+1);
         }else{
-            image.setImage_likes(image.getImage_likes()-1);
+            image.setLikes(image.getLikes()-1);
         }
         update(image);
     }

@@ -44,7 +44,7 @@ public class CommentDaoTests {
         userDao.create(commenter);
         commenter = userDao.getUser(commenter.getUsername());
 
-        Image image = new Image(imageCreator,"http://test", "titulek", "2008-01-01 00:00:01");
+        Image image = new Image(imageCreator,"http://test", "titulek");
         imageDao.create(image);
         image = imageDao.getImage(image.getUrl());
 
@@ -56,7 +56,7 @@ public class CommentDaoTests {
         assertEquals("Returned comment from the database", created.getText(), comment.getText());
 
         commentDao.deleteComment(created.getId_comment());
-        imageDao.deleteImage(image.getId_image());
+        imageDao.deleteImage(image.getId());
         userDao.deleteUser(commenter.getId());
         userDao.deleteUser(imageCreator.getId());
     }
@@ -72,7 +72,7 @@ public class CommentDaoTests {
         userDao.create(commenter);
         commenter = userDao.getUser(commenter.getUsername());
 
-        Image image = new Image(imageCreator,"http://test", "titulek", "2008-01-01 00:00:01");
+        Image image = new Image(imageCreator,"http://test", "titulek");
         imageDao.create(image);
         image = imageDao.getImage(image.getUrl());
 
@@ -87,11 +87,9 @@ public class CommentDaoTests {
         assertEquals("Likes at 0 again", (int)comment.getComment_likes(), 0);
 
         commentDao.deleteComment(comment.getId_comment());
-        imageDao.deleteImage(image.getId_image());
+        imageDao.deleteImage(image.getId());
         userDao.deleteUser(commenter.getId());
         userDao.deleteUser(imageCreator.getId());
     }
-
-
 
 }

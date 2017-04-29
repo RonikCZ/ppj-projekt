@@ -41,7 +41,7 @@ public class TagDao {
     public boolean delete(Tag tag) {
         Query query = session().createQuery("delete from Tag where tag_title=:tag_title and id_image=:id_image");
         query.setString("tag_title", tag.getTag_title());
-        query.setLong("id_image", tag.getImage().getId_image());
+        query.setLong("id_image", tag.getImage().getId());
         return query.executeUpdate() == 1;
     }
 

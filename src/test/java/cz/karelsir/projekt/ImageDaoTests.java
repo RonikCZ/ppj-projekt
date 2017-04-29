@@ -38,14 +38,14 @@ public class ImageDaoTests {
         userDao.create(user);
         user = userDao.getUser(user.getUsername());
 
-        Image image = new Image(user,"http://test", "titulek", "2008-01-01 00:00:01");
+        Image image = new Image(user,"http://test", "titulek");
         imageDao.create(image);
 
         Image created = imageDao.getImage(image.getUrl());
 
         assertEquals("Returned image from the database", created.getUrl(), image.getUrl());
 
-        imageDao.deleteImage(created.getId_image());
+        imageDao.deleteImage(created.getId());
         userDao.deleteUser(user.getId());
     }
 
@@ -56,17 +56,17 @@ public class ImageDaoTests {
         userDao.create(creator);
         creator = userDao.getUser(creator.getUsername());
 
-        Image image = new Image(creator,"http://liketest", "like", "2008-01-01 00:00:01");
+        Image image = new Image(creator,"http://liketest", "like");
         imageDao.create(image);
         image = imageDao.getImage(image.getUrl());
 
-        assertEquals("Likes at 0", (int)image.getImage_likes(), 0);
+        assertEquals("Likes at 0", (int)image.getLikes(), 0);
         imageDao.changeLikes(image, true);
-        assertEquals("Likes at 1", (int)image.getImage_likes(), 1);
+        assertEquals("Likes at 1", (int)image.getLikes(), 1);
         imageDao.changeLikes(image, false);
-        assertEquals("Likes at 0 again", (int)image.getImage_likes(), 0);
+        assertEquals("Likes at 0 again", (int)image.getLikes(), 0);
 
-        imageDao.deleteImage(image.getId_image());
+        imageDao.deleteImage(image.getId());
         userDao.deleteUser(creator.getId());
     }
 
@@ -77,19 +77,19 @@ public class ImageDaoTests {
         userDao.create(creator);
         creator = userDao.getUser(creator.getUsername());
 
-        Image image = new Image(creator,"http://liketest", "original", "2008-01-01 00:00:01");
+        Image image = new Image(creator,"http://liketest", "original");
         imageDao.create(image);
         image = imageDao.getImage(image.getUrl());
 
-        Image original = new Image(image.getId_image(), image.getUser(), image.getUrl(), image.getTitle(),
-                image.getImage_creation(), image.getImage_creation(), image.getImage_likes());
+        Image original = new Image(image.getId(), image.getUser(), image.getUrl(), image.getTitle(),
+                image.getDateCreation(), image.getDateCreation(), image.getLikes());
         image.setTitle("zmena");
         imageDao.update(image);
-        image = imageDao.getImage(image.getId_image());
+        image = imageDao.getImage(image.getId());
 
         assertNotEquals("Check if changed", image.getTitle(), original.getTitle());
 
-        imageDao.deleteImage(image.getId_image());
+        imageDao.deleteImage(image.getId());
         userDao.deleteUser(creator.getId());
     }
 
