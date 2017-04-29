@@ -36,7 +36,6 @@ public class TagDaoTests {
 
         Image image = new Image(imageCreator,"http://tag", "tagTest");
         imageDao.create(image);
-        image = imageDao.getImage(image.getUrl());
 
         Tag tag = new Tag(image, "test");
         tagDao.create(tag);

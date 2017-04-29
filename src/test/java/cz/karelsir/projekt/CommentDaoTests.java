@@ -44,7 +44,6 @@ public class CommentDaoTests {
 
         Image image = new Image(imageCreator,"http://test", "titulek");
         imageDao.create(image);
-        image = imageDao.getImage(image.getUrl());
 
         Comment comment = new Comment(commenter, image, "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
         commentDao.create(comment);
@@ -70,7 +69,6 @@ public class CommentDaoTests {
 
         Image image = new Image(imageCreator,"http://test", "titulek");
         imageDao.create(image);
-        image = imageDao.getImage(image.getUrl());
 
         Comment comment = new Comment(commenter, image, "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
         commentDao.create(comment);

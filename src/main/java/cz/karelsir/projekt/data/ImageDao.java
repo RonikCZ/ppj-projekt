@@ -44,7 +44,8 @@ public class ImageDao {
     }
 
     public void create(Image image) {
-        session().save(image);
+        Integer id = (Integer) session().save(image);
+        image.setId(id);
     }
 
     public void create(List<Image> images) {

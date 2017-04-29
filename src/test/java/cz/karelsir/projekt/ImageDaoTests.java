@@ -40,7 +40,7 @@ public class ImageDaoTests {
         Image image = new Image(user,"http://test", "titulek");
         imageDao.create(image);
 
-        Image created = imageDao.getImage(image.getUrl());
+        Image created = imageDao.getImage(image.getId());
 
         assertEquals("Returned image from the database", created.getUrl(), image.getUrl());
 
@@ -56,7 +56,6 @@ public class ImageDaoTests {
 
         Image image = new Image(creator,"http://liketest", "like");
         imageDao.create(image);
-        image = imageDao.getImage(image.getUrl());
 
         assertEquals("Likes at 0", (int)image.getLikes(), 0);
         imageDao.changeLikes(image, true);
@@ -76,7 +75,6 @@ public class ImageDaoTests {
 
         Image image = new Image(creator,"http://liketest", "original");
         imageDao.create(image);
-        image = imageDao.getImage(image.getUrl());
 
         Image original = new Image(image.getId(), image.getUser(), image.getUrl(), image.getTitle(),
                 image.getDateCreation(), image.getDateCreation(), image.getLikes());
