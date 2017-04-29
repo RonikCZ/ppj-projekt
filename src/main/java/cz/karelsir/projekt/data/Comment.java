@@ -1,5 +1,7 @@
 package cz.karelsir.projekt.data;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by Ronik on 7. 4. 2017.
  */
@@ -9,28 +11,25 @@ public class Comment {
     private Integer id_user;
     private Integer id_image;
 
-
-    private String comment_creation;
-    private String comment_lastedit;
+    private LocalDateTime comment_creation;
+    private LocalDateTime comment_lastedit;
     private Integer comment_likes;
     private String text;
-
-
 
     public Comment() {
 
     }
 
-    public Comment(int id_user, int id_image, String date_creation, String date_lastedit, String text) {
+    public Comment(int id_user, int id_image, String text) {
         this.id_user = id_user;
         this.id_image = id_image;
-        this.comment_creation = date_creation;
-        this.comment_lastedit = date_lastedit;
+        this.comment_creation = LocalDateTime.now();
+        this.comment_lastedit = this.comment_creation;
         this.comment_likes = 0;
         this.text = text;
     }
 
-    public Comment(Integer id, int id_user, int id_image, String date_creation, String date_lastedit, Integer likes, String text) {
+    public Comment(Integer id, int id_user, int id_image, LocalDateTime date_creation, LocalDateTime date_lastedit, Integer likes, String text) {
         this.id = id;
         this.id_user = id_user;
         this.id_image = id_image;
@@ -46,22 +45,6 @@ public class Comment {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getComment_creation() {
-        return comment_creation;
-    }
-
-    public void setComment_creation(String comment_creation) {
-        this.comment_creation = comment_creation;
-    }
-
-    public String getComment_lastedit() {
-        return comment_lastedit;
-    }
-
-    public void setComment_lastedit(String comment_lastedit) {
-        this.comment_lastedit = comment_lastedit;
     }
 
     public Integer getComment_likes() {
@@ -94,6 +77,22 @@ public class Comment {
 
     public void setId_image(Integer id_image) {
         this.id_image = id_image;
+    }
+
+    public LocalDateTime getComment_creation() {
+        return comment_creation;
+    }
+
+    public void setComment_creation(LocalDateTime comment_creation) {
+        this.comment_creation = comment_creation;
+    }
+
+    public LocalDateTime getComment_lastedit() {
+        return comment_lastedit;
+    }
+
+    public void setComment_lastedit(LocalDateTime comment_lastedit) {
+        this.comment_lastedit = comment_lastedit;
     }
 
     @Override

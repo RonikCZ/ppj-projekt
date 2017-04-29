@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -28,8 +30,14 @@ public class CommentDao {
     public long create(Comment comment) {
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
 
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
-                comment);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("id_image", comment.getId_image());
+        params.addValue("id_user", comment.getId_user());
+        params.addValue("comment_creation", Timestamp.valueOf(comment.getComment_creation()));
+        params.addValue("comment_lastedit", Timestamp.valueOf(comment.getComment_lastedit()));
+        params.addValue("comment_likes", comment.getComment_likes());
+        params.addValue("text", comment.getText());
 
         int numberOfAffectedRows = namedParameterJdbcTemplate.update(CREATE_SQL,
                 params,
@@ -57,10 +65,14 @@ public class CommentDao {
     }
 
     public boolean update(Comment comment) {
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
-                comment);
+        comment.setComment_lastedit(LocalDateTime.now());
 
-        return jdbc.update("update comment set text=:text where id_comment=:id_comment", params) == 1;
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", comment.getId());
+        params.addValue("text", comment.getText());
+        params.addValue("comment_lastedit", Timestamp.valueOf(comment.getComment_lastedit()));
+
+        return jdbc.update("update comment set text=:text, comment_lastedit:=comment_lastedit where id_comment=:id", params) == 1;
     }
 
 
@@ -109,8 +121,8 @@ class CommentRowMapper implements RowMapper<Comment>
     public Comment mapRow(ResultSet rs, int rowNum) throws SQLException{
         Comment comment = new Comment();
         comment.setId(rs.getInt("id_comment"));
-        comment.setComment_creation(rs.getString("comment_creation"));
-        comment.setComment_lastedit(rs.getString("comment_lastedit"));
+        comment.setComment_creation(rs.getTimestamp("comment_creation").toLocalDateTime());
+        comment.setComment_lastedit(rs.getTimestamp("comment_lastedit").toLocalDateTime());
         comment.setComment_likes(rs.getInt("comment_likes"));
         comment.setText(rs.getString("text"));
         comment.setId_user(rs.getInt("id_user"));

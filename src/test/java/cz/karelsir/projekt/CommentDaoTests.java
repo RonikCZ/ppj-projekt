@@ -46,7 +46,7 @@ public class CommentDaoTests {
         Image image = new Image(imageCreator.getId(),"http://test", "titulek");
         imageDao.create(image);
 
-        Comment comment = new Comment(commenter.getId(), image.getId(), "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
+        Comment comment = new Comment(commenter.getId(), image.getId(),"test");
         assertNotEquals("Creation should affect more than 0 rows", 0, commentDao.create(comment));
 
         Comment created = commentDao.getComment(comment.getId());
@@ -70,7 +70,7 @@ public class CommentDaoTests {
         Image image = new Image(imageCreator.getId(),"http://test", "titulek");
         imageDao.create(image);
 
-        Comment comment = new Comment(commenter.getId(), image.getId(), "2008-01-01 00:00:01", "2008-01-01 00:00:01", "test");
+        Comment comment = new Comment(commenter.getId(), image.getId(), "test");
         commentDao.create(comment);
 
         assertEquals("Likes at 0", (int)comment.getComment_likes(), 0);
