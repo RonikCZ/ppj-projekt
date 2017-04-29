@@ -35,7 +35,7 @@ public class UserDaoTests {
 
         assertTrue("User should exist", userDao.exists(user.getUsername()));
 
-        User created = userDao.getUser(user.getUsername());
+        User created = userDao.getUser(user.getId());
 
         assertEquals("Return user from the database", created.getUsername(), user.getUsername());
 

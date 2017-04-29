@@ -33,7 +33,6 @@ public class TagDaoTests {
 
         User imageCreator = new User("imageCreator");
         userDao.create(imageCreator);
-        imageCreator = userDao.getUser(imageCreator.getUsername());
 
         Image image = new Image(imageCreator,"http://tag", "tagTest");
         imageDao.create(image);

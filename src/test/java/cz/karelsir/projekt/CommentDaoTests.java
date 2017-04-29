@@ -38,11 +38,9 @@ public class CommentDaoTests {
 
         User imageCreator = new User("imageCreator");
         userDao.create(imageCreator);
-        imageCreator = userDao.getUser(imageCreator.getUsername());
 
         User commenter = new User("commenter");
         userDao.create(commenter);
-        commenter = userDao.getUser(commenter.getUsername());
 
         Image image = new Image(imageCreator,"http://test", "titulek");
         imageDao.create(image);
@@ -66,11 +64,9 @@ public class CommentDaoTests {
 
         User imageCreator = new User("imageCreator");
         userDao.create(imageCreator);
-        imageCreator = userDao.getUser(imageCreator.getUsername());
 
         User commenter = new User("commenter");
         userDao.create(commenter);
-        commenter = userDao.getUser(commenter.getUsername());
 
         Image image = new Image(imageCreator,"http://test", "titulek");
         imageDao.create(image);

@@ -22,7 +22,8 @@ public class UserDao {
     }
 
     public void create(User user) {
-        session().save(user);
+        Integer id = (Integer) session().save(user);
+        user.setId(id);
     }
 
     public boolean exists(String username) {

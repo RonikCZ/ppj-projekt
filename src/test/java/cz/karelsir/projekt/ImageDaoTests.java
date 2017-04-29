@@ -36,7 +36,6 @@ public class ImageDaoTests {
 
         User user = new User("imageCreator");
         userDao.create(user);
-        user = userDao.getUser(user.getUsername());
 
         Image image = new Image(user,"http://test", "titulek");
         imageDao.create(image);
@@ -54,7 +53,6 @@ public class ImageDaoTests {
 
         User creator = new User("imageCreator");
         userDao.create(creator);
-        creator = userDao.getUser(creator.getUsername());
 
         Image image = new Image(creator,"http://liketest", "like");
         imageDao.create(image);
@@ -75,7 +73,6 @@ public class ImageDaoTests {
 
         User creator = new User("imageCreator");
         userDao.create(creator);
-        creator = userDao.getUser(creator.getUsername());
 
         Image image = new Image(creator,"http://liketest", "original");
         imageDao.create(image);
