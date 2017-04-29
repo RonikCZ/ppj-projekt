@@ -12,7 +12,7 @@ public class Tag implements Serializable {
 
     @Id
     @Column(name = "tag_title")
-    private String tag_title;
+    private String title;
 
     @Id
     @ManyToOne
@@ -23,17 +23,17 @@ public class Tag implements Serializable {
         this.image = new Image();
     }
 
-    public Tag(Image image, String tag_title) {
+    public Tag(Image image, String title) {
         this.image = image;
-        this.tag_title = tag_title;
+        this.title = title;
     }
 
-    public String getTag_title() {
-        return tag_title;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTag_title(String tag_title) {
-        this.tag_title = tag_title;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Image getImage() {
@@ -44,34 +44,29 @@ public class Tag implements Serializable {
         this.image = image;
     }
 
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((tag_title == null) ? 0 : tag_title.hashCode());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Tag tag = (Tag) o;
+
+        if (title != null ? !title.equals(tag.title) : tag.title != null) return false;
+        return image != null ? image.equals(tag.image) : tag.image == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Tag other = (Tag) obj;
-        if (tag_title == null) {
-            if (other.tag_title != null)
-                return false;
-        } else if (!tag_title.equals(other.tag_title))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "Tag [tag_title=" + tag_title + ", image=" + image + "]";
+        return "Tag{" +
+                "title='" + title + '\'' +
+                ", image=" + image +
+                '}';
     }
-
 }

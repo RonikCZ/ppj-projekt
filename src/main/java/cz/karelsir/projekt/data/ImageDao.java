@@ -12,6 +12,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional
@@ -31,6 +32,7 @@ public class ImageDao {
     }
 
     public void update(Image image) {
+        image.setDateLastEdit(LocalDateTime.now());
         session().saveOrUpdate(image);
     }
 

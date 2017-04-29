@@ -40,7 +40,7 @@ public class TagDao {
 
     public boolean delete(Tag tag) {
         Query query = session().createQuery("delete from Tag where tag_title=:tag_title and id_image=:id_image");
-        query.setString("tag_title", tag.getTag_title());
+        query.setString("tag_title", tag.getTitle());
         query.setLong("id_image", tag.getImage().getId());
         return query.executeUpdate() == 1;
     }
@@ -48,10 +48,10 @@ public class TagDao {
     public Tag getTag(int id_image, String tag_title) {
 
         Criteria crit = session().createCriteria(Tag.class);
-        crit.add(Restrictions.eq("tag_title", tag_title));
+        crit.add(Restrictions.eq("title", tag_title));
 
         crit.createAlias("image", "i");
-        crit.add(Restrictions.eq("i.id_image", id_image));
+        crit.add(Restrictions.eq("i.id", id_image));
 
         return (Tag) crit.uniqueResult();
     }

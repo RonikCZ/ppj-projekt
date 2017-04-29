@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class CommentDao {
     }
 
     public void update(Comment comment) {
+        comment.setDateLastEdit(LocalDateTime.now());
         session().saveOrUpdate(comment);
     }
 

@@ -40,8 +40,8 @@ public class TagDaoTests {
         Tag tag = new Tag(image, "test");
         tagDao.create(tag);
 
-        Tag created = tagDao.getTag(image.getId(), tag.getTag_title());
-        assertEquals("Returned tag from the database", tag.getTag_title(), created.getTag_title());
+        Tag created = tagDao.getTag(image.getId(), tag.getTitle());
+        assertEquals("Returned tag from the database", tag.getTitle(), created.getTitle());
 
         tagDao.delete(tag);
         imageDao.deleteImage(image.getId());

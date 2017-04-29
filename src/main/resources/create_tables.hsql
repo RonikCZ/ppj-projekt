@@ -29,10 +29,10 @@ CREATE TABLE IF NOT EXISTS `mydb`.`image` (
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`tag` (
-  `tag_title` VARCHAR(16) NOT NULL,
+  `title` VARCHAR(16) NOT NULL,
   `id` INT NOT NULL,
-  PRIMARY KEY (`id`, `tag_title`),
-  UNIQUE INDEX `title_UNIQUE` (`tag_title` ASC),
+  PRIMARY KEY (`id`, `title`),
+  UNIQUE INDEX `title_UNIQUE` (`title` ASC),
   INDEX `fk_tag_image1_idx` (`id` ASC),
   CONSTRAINT `fk_tag_image1`
     FOREIGN KEY (`id`)
