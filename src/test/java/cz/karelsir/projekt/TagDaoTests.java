@@ -31,7 +31,7 @@ public class TagDaoTests {
     @Test
     public void testCreateTag() {
 
-        User imageCreator = new User("imageCreator", "2008-01-01 00:00:01");
+        User imageCreator = new User("imageCreator");
         userDao.create(imageCreator);
         imageCreator = userDao.getUser(imageCreator.getUsername());
 
@@ -47,7 +47,7 @@ public class TagDaoTests {
 
         tagDao.delete(tag);
         imageDao.deleteImage(image.getId_image());
-        userDao.deleteUser(imageCreator.getId_user());
+        userDao.deleteUser(imageCreator.getId());
     }
 }
 

@@ -29,7 +29,7 @@ public class UserDaoTests {
     @Test
     public void testCreateUser() {
 
-        User user = new User("testUser", "2008-01-01 00:00:01");
+        User user = new User("testUser");
 
         userDao.create(user);
 
@@ -39,7 +39,7 @@ public class UserDaoTests {
 
         assertEquals("Return user from the database", created.getUsername(), user.getUsername());
 
-        userDao.deleteUser(created.getId_user());
+        userDao.deleteUser(created.getId());
     }
 
 }

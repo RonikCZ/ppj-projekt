@@ -36,11 +36,11 @@ public class CommentDaoTests {
     @Test
     public void testCreateComment() {
 
-        User imageCreator = new User("imageCreator", "2008-01-01 00:00:01");
+        User imageCreator = new User("imageCreator");
         userDao.create(imageCreator);
         imageCreator = userDao.getUser(imageCreator.getUsername());
 
-        User commenter = new User("commenter", "2008-01-01 00:00:01");
+        User commenter = new User("commenter");
         userDao.create(commenter);
         commenter = userDao.getUser(commenter.getUsername());
 
@@ -57,18 +57,18 @@ public class CommentDaoTests {
 
         commentDao.deleteComment(created.getId_comment());
         imageDao.deleteImage(image.getId_image());
-        userDao.deleteUser(commenter.getId_user());
-        userDao.deleteUser(imageCreator.getId_user());
+        userDao.deleteUser(commenter.getId());
+        userDao.deleteUser(imageCreator.getId());
     }
 
     @Test
     public void testLikeDislikeComment() {
 
-        User imageCreator = new User("imageCreator", "2008-01-01 00:00:01");
+        User imageCreator = new User("imageCreator");
         userDao.create(imageCreator);
         imageCreator = userDao.getUser(imageCreator.getUsername());
 
-        User commenter = new User("commenter", "2008-01-01 00:00:01");
+        User commenter = new User("commenter");
         userDao.create(commenter);
         commenter = userDao.getUser(commenter.getUsername());
 
@@ -88,8 +88,8 @@ public class CommentDaoTests {
 
         commentDao.deleteComment(comment.getId_comment());
         imageDao.deleteImage(image.getId_image());
-        userDao.deleteUser(commenter.getId_user());
-        userDao.deleteUser(imageCreator.getId_user());
+        userDao.deleteUser(commenter.getId());
+        userDao.deleteUser(imageCreator.getId());
     }
 
 

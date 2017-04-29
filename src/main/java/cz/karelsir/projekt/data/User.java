@@ -1,6 +1,8 @@
 package cz.karelsir.projekt.data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+
 
 /**
  * Created by akasa on 20.1.2015.
@@ -12,32 +14,34 @@ public class User {
     @Id
     @Column(name = "id_user")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id_user;
+    private Integer id;
 
     private String username;
-    private String user_registration;
+
+    @Column(name = "user_registration")
+    private LocalDateTime registration;
 
     public User() {
 
     }
 
-    public User(int id_user, String username, String user_registration) {
-        this.id_user = id_user;
+    public User(int id, String username, LocalDateTime registration) {
+        this.id = id;
         this.username = username;
-        this.user_registration = user_registration;
+        this.registration = registration;
     }
 
-    public User(String username, String user_registration) {
+    public User(String username) {
         this.username = username;
-        this.user_registration = user_registration;
+        this.registration = LocalDateTime.now();
     }
 
-    public Integer getId_user() {
-        return id_user;
+    public Integer getId() {
+        return id;
     }
 
-    public void setId_user(int id_user) {
-        this.id_user = id_user;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -48,44 +52,40 @@ public class User {
         this.username = username;
     }
 
-    public String getUser_registration() {
-        return user_registration;
+    public LocalDateTime getRegistration() {
+        return registration;
     }
 
-    public void setUser_registration(String user_registration) {
-        this.user_registration = user_registration;
+    public void setRegistration(LocalDateTime registration) {
+        this.registration = registration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
+        return registration != null ? registration.equals(user.registration) : user.registration == null;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
-        result = prime * result + ((user_registration == null) ? 0 : user_registration.hashCode());
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (registration != null ? registration.hashCode() : 0);
         return result;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id_user == null) {
-            if (other.id_user != null)
-                return false;
-        } else if (!id_user.equals(other.id_user))
-            return false;
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "User [ id_user=" + id_user +", username=" + username + ", user_registration=" + user_registration + "]";
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", registration=" + registration +
+                '}';
     }
-
-
 }

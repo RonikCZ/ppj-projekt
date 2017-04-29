@@ -18,7 +18,7 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableTransactionManagement
-@EntityScan("cz.karelsir.projekt.data")
+@EntityScan({"cz.karelsir.projekt.data","cz.karelsir.projekt.tools"})
 public class Main {
 
     @Bean

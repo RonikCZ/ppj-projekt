@@ -34,7 +34,7 @@ public class ImageDaoTests {
     @Test
     public void testCreateImage() {
 
-        User user = new User("imageCreator", "2008-01-01 00:00:01");
+        User user = new User("imageCreator");
         userDao.create(user);
         user = userDao.getUser(user.getUsername());
 
@@ -46,13 +46,13 @@ public class ImageDaoTests {
         assertEquals("Returned image from the database", created.getUrl(), image.getUrl());
 
         imageDao.deleteImage(created.getId_image());
-        userDao.deleteUser(user.getId_user());
+        userDao.deleteUser(user.getId());
     }
 
     @Test
     public void testLikeDislike() {
 
-        User creator = new User("imageCreator", "2008-01-01 00:00:01");
+        User creator = new User("imageCreator");
         userDao.create(creator);
         creator = userDao.getUser(creator.getUsername());
 
@@ -67,13 +67,13 @@ public class ImageDaoTests {
         assertEquals("Likes at 0 again", (int)image.getImage_likes(), 0);
 
         imageDao.deleteImage(image.getId_image());
-        userDao.deleteUser(creator.getId_user());
+        userDao.deleteUser(creator.getId());
     }
 
     @Test
     public void testChangeImage() {
 
-        User creator = new User("imageCreator", "2008-01-01 00:00:01");
+        User creator = new User("imageCreator");
         userDao.create(creator);
         creator = userDao.getUser(creator.getUsername());
 
@@ -90,7 +90,7 @@ public class ImageDaoTests {
         assertNotEquals("Check if changed", image.getTitle(), original.getTitle());
 
         imageDao.deleteImage(image.getId_image());
-        userDao.deleteUser(creator.getId_user());
+        userDao.deleteUser(creator.getId());
     }
 
 
