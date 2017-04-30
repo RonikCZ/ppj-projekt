@@ -1,6 +1,7 @@
 package cz.karelsir.projekt.repositories;
 
 import cz.karelsir.projekt.data.Image;
+import cz.karelsir.projekt.data.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +18,6 @@ public interface ImageRepository extends CrudRepository<Image, Integer> {
     public List<Image> findByUrl(@Param("url") String url);
 
     @Query("select i from Image as i where i.user=:user")
-    public List<Image> findByUser(@Param("user") int user);
+    public List<Image> findByUser(@Param("user") User user);
 
 }

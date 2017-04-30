@@ -14,7 +14,7 @@
         <append>false</append>
     </appender>
 
-    <logger name="cz.tul" level="INFO"/>
+    <logger name="cz.karelsir.projekt" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

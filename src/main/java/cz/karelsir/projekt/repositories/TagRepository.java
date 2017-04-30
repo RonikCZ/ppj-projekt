@@ -1,13 +1,21 @@
 package cz.karelsir.projekt.repositories;
 
+import cz.karelsir.projekt.data.Image;
 import cz.karelsir.projekt.data.Tag;
 import cz.karelsir.projekt.data.TagId;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by Ronik on 30. 4. 2017.
  */
 @Repository
 public interface TagRepository extends CrudRepository<Tag, TagId> {
+    @Query("select t from Tag as t where t.tagId.image=:image")
+    public List<Tag> findByImage(@Param("image") Image image);
+
 }

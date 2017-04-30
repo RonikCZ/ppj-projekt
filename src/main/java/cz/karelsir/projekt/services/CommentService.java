@@ -60,27 +60,12 @@ public class CommentService {
     }
 
     public List<Comment> getCommentsByImage(Image image) {
-        if(image.getId() <= 0) {
-            return null;
-        }
-        List<Comment> comments = commentRepository.findByImage(image.getId());
+        return StreamSupport.stream(commentRepository.findByImage(image).spliterator(), false).collect(Collectors.toList());
 
-        if(comments.size() == 0) {
-            return null;
-        }
-        return comments;
     }
 
     public List<Comment> getCommentsByUser(User user) {
-        if(user.getId() <= 0) {
-            return null;
-        }
-        List<Comment> comments = commentRepository.findByUser(user.getId());
-
-        if(comments.size() == 0) {
-            return null;
-        }
-        return comments;
+        return StreamSupport.stream(commentRepository.findByUser(user).spliterator(), false).collect(Collectors.toList());
     }
 
     public void deleteComment(int id) {

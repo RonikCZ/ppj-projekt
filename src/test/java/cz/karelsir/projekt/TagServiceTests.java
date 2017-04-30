@@ -13,6 +13,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -50,6 +52,58 @@ public class TagServiceTests {
         imageService.deleteImage(image.getId());
         userService.deleteUser(imageCreator.getId());
     }
+
+    @Test
+    public void testGetTags() {
+        User imageCreator = new User("imageCreator");
+        userService.create(imageCreator);
+
+        Image image = new Image(imageCreator,"http://tag", "tagTest");
+        imageService.create(image);
+
+        Image image2 = new Image(imageCreator,"http://tag", "tagTest");
+        imageService.create(image2);
+
+        Tag tag = new Tag(image, "firstImage");
+        tagService.create(tag);
+        Tag tag2 = new Tag(image2, "secondImageFirstTag");
+        tagService.create(tag2);
+        Tag tag3 = new Tag(image2, "secondImageSecondTag");
+        tagService.create(tag3);
+
+        List<Tag> allTags = tagService.getAllTags();
+        List<Tag> firstImageTags = tagService.getTagsByImage(image);
+        List<Tag> secondImageTags = tagService.getTagsByImage(image2);
+
+        assertEquals("Should return 3 tags", 3, allTags.size());
+        assertEquals("Should return 1 tags", 1, firstImageTags.size());
+        assertEquals("Should return 2 tags", 2, secondImageTags.size());
+    }
+
+    @Test
+    public void testDeleteTags() {
+        User imageCreator = new User("imageCreator");
+        userService.create(imageCreator);
+
+        Image image = new Image(imageCreator,"http://tag", "tagTest");
+        imageService.create(image);
+
+        Image image2 = new Image(imageCreator,"http://tag", "tagTest");
+        imageService.create(image2);
+
+        Tag tag = new Tag(image, "firstImage");
+        tagService.create(tag);
+        Tag tag2 = new Tag(image2, "secondImageFirstTag");
+        tagService.create(tag2);
+        Tag tag3 = new Tag(image2, "secondImageSecondTag");
+        tagService.create(tag3);
+
+        tagService.deleteTags();
+
+        List<Tag> list = tagService.getAllTags();
+        assertTrue("No tags should exist", list.isEmpty());
+    }
+
 }
 
 

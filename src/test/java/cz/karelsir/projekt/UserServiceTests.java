@@ -11,6 +11,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -33,13 +35,34 @@ public class UserServiceTests {
 
         userService.create(user);
 
-        assertTrue("User should exist", userService.exists(user.getId()));
+        int id = user.getId();
 
-        User created = userService.getUser(user.getId());
+        assertTrue("User should exist", userService.exists(id));
 
-        assertEquals("Return user from the database", created.getUsername(), user.getUsername());
+        User created = userService.getUser(id);
+
+        assertEquals("Check if the returned user is the same as created", created.getUsername(), user.getUsername());
 
         userService.deleteUser(created.getId());
+        assertTrue("User should be deleted", !userService.exists(id));
+    }
+
+    @Test
+    public void testDeleteUsers() {
+
+        User user = new User("testUser");
+        User user2 = new User("testUser2");
+        User user3 = new User("testUser3");
+
+        userService.create(user);
+        userService.create(user2);
+        userService.create(user3);
+
+        userService.deleteUsers();
+
+        List<User> list = userService.getAllUsers();
+
+        assertTrue("No users should exist", list.isEmpty());
     }
 
 }

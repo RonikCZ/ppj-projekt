@@ -23,14 +23,12 @@ public class TagService {
         tagRepository.save(tag);
     }
 
-    public void create(List<Tag> tags) {
-        for (Tag tag:tags) {
-            create(tag);
-        }
+    public List<Tag> getAllTags() {
+        return StreamSupport.stream(tagRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
-    public List<Tag> getTags() {
-        return StreamSupport.stream(tagRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    public List<Tag> getTagsByImage(Image image) {
+        return StreamSupport.stream(tagRepository.findByImage(image).spliterator(), false).collect(Collectors.toList());
     }
 
     public void delete(Tag tag) {

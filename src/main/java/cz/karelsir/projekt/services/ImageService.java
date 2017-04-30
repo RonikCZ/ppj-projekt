@@ -55,15 +55,7 @@ public class ImageService {
     }
 
     public List<Image> getUserImages(User user) {
-        if(user.getId() <= 0) {
-            return null;
-        }
-        List<Image> images = imageRepository.findByUser(user.getId());
-
-        if(images.size() == 0) {
-            return null;
-        }
-        return images;
+        return StreamSupport.stream(imageRepository.findByUser(user).spliterator(), false).collect(Collectors.toList());
     }
 
     public List<Image> getAllImages() {
