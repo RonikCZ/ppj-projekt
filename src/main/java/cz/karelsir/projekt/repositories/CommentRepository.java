@@ -17,10 +17,10 @@ public interface CommentRepository extends CrudRepository<Comment, Integer> {
     @Query("select c from Comment as c where c.text=:text")
     public List<Comment> findByText(@Param("text") String text);
 
-    @Query("select c from Comment as c where c.id_image=:id_image")
-    public List<Comment> findByImage(@Param("id_image") int id_image);
+    @Query("select c from Comment as c where c.image=:image")
+    public List<Comment> findByImage(@Param("image") int image);
 
-    @Query("select c from Comment as c where c.id_user=:id_user")
-    public List<Comment> findByUser(@Param("id_user") int id_user);
+    @Query("select c from Comment as c where c.user=:user")
+    public List<Comment> findByUser(@Param("user") int user);
 
 }
