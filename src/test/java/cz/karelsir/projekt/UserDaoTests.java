@@ -1,7 +1,7 @@
 package cz.karelsir.projekt;
 
 import cz.karelsir.projekt.data.User;
-import cz.karelsir.projekt.data.UserDao;
+import cz.karelsir.projekt.services.UserService;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,22 +24,22 @@ import static org.junit.Assert.assertTrue;
 public class UserDaoTests {
 
     @Autowired
-    private UserDao userDao;
+    UserService userService;
 
     @Test
     public void testCreateUser() {
 
         User user = new User("testUser");
 
-        userDao.create(user);
+        userService.create(user);
 
-        assertTrue("User should exist", userDao.exists(user.getUsername()));
+        assertTrue("User should exist", userService.exists(user.getId()));
 
-        User created = userDao.getUser(user.getId());
+        User created = userService.getUser(user.getId());
 
         assertEquals("Return user from the database", created.getUsername(), user.getUsername());
 
-        userDao.deleteUser(created.getId());
+        userService.deleteUser(created.getId());
     }
 
 }
