@@ -33,7 +33,6 @@ public class User {
 
     public User(String username) {
         this.username = username;
-        this.registration = LocalDateTime.now();
     }
 
     public Integer getId() {
@@ -87,5 +86,10 @@ public class User {
                 ", username='" + username + '\'' +
                 ", registration=" + registration +
                 '}';
+    }
+
+    @PrePersist
+    public void prePersist(){
+        setRegistration(LocalDateTime.now());
     }
 }

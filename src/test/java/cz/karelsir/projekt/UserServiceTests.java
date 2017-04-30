@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 @SpringApplicationConfiguration(classes = {Main.class})
 @ActiveProfiles({"test"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UserDaoTests {
+public class UserServiceTests {
 
     @Autowired
     UserService userService;

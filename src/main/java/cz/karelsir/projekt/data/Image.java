@@ -33,8 +33,6 @@ public class Image {
         this.user = user;
         this.url = url;
         this.title = title;
-        this.dateCreation = LocalDateTime.now();
-        this.dateLastEdit = this.dateCreation;
         this.likes = 0;
     }
 
@@ -143,5 +141,16 @@ public class Image {
                 ", likes=" + likes +
                 ", user=" + user +
                 '}';
+    }
+
+    @PrePersist
+    public void prePersist(){
+        setDateCreation(LocalDateTime.now());
+        setDateLastEdit(getDateCreation());
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        setDateLastEdit(LocalDateTime.now());
     }
 }
