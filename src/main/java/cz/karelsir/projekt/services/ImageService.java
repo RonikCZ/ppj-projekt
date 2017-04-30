@@ -1,5 +1,6 @@
 package cz.karelsir.projekt.services;
 
+import cz.karelsir.projekt.data.Comment;
 import cz.karelsir.projekt.data.Image;
 import cz.karelsir.projekt.data.User;
 import cz.karelsir.projekt.repositories.ImageRepository;
@@ -51,6 +52,18 @@ public class ImageService {
 
     public Image getImage(String url) {
         return imageRepository.findByUrl(url).get(0);
+    }
+
+    public List<Image> getUserImages(User user) {
+        if(user.getId() <= 0) {
+            return null;
+        }
+        List<Image> images = imageRepository.findByUser(user.getId());
+
+        if(images.size() == 0) {
+            return null;
+        }
+        return images;
     }
 
     public List<Image> getAllImages() {

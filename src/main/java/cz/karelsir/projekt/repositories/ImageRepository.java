@@ -15,4 +15,8 @@ import java.util.List;
 public interface ImageRepository extends CrudRepository<Image, Integer> {
     @Query("select i from Image as i where i.url=:url")
     public List<Image> findByUrl(@Param("url") String url);
+
+    @Query("select i from Image as i where i.id_user=:id_user")
+    public List<Image> findByUser(@Param("id_user") int id_user);
+
 }

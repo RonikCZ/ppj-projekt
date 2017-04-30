@@ -2,8 +2,8 @@ package cz.karelsir.projekt.services;
 
 import cz.karelsir.projekt.data.Comment;
 import cz.karelsir.projekt.data.Image;
+import cz.karelsir.projekt.data.User;
 import cz.karelsir.projekt.repositories.CommentRepository;
-import cz.karelsir.projekt.repositories.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,6 +57,30 @@ public class CommentService {
 
     public List<Comment> getAllComments() {
         return StreamSupport.stream(commentRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+
+    public List<Comment> getCommentsByImage(Image image) {
+        if(image.getId() <= 0) {
+            return null;
+        }
+        List<Comment> comments = commentRepository.findByImage(image.getId());
+
+        if(comments.size() == 0) {
+            return null;
+        }
+        return comments;
+    }
+
+    public List<Comment> getCommentsByUser(User user) {
+        if(user.getId() <= 0) {
+            return null;
+        }
+        List<Comment> comments = commentRepository.findByUser(user.getId());
+
+        if(comments.size() == 0) {
+            return null;
+        }
+        return comments;
     }
 
     public void deleteComment(int id) {

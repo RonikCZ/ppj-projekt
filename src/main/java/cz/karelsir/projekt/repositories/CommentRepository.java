@@ -16,4 +16,11 @@ import java.util.List;
 public interface CommentRepository extends CrudRepository<Comment, Integer> {
     @Query("select c from Comment as c where c.text=:text")
     public List<Comment> findByText(@Param("text") String text);
+
+    @Query("select c from Comment as c where c.id_image=:id_image")
+    public List<Comment> findByImage(@Param("id_image") int id_image);
+
+    @Query("select c from Comment as c where c.id_user=:id_user")
+    public List<Comment> findByUser(@Param("id_user") int id_user);
+
 }
