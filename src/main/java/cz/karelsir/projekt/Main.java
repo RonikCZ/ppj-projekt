@@ -2,6 +2,7 @@ package cz.karelsir.projekt;
 
 import cz.karelsir.projekt.data.*;
 import cz.karelsir.projekt.provisioning.Provisioner;
+import cz.karelsir.projekt.services.ImageService;
 import cz.karelsir.projekt.services.UserService;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,10 @@ public class Main {
         UserService userService = ctx.getBean(UserService.class);
         List<User> users = userService.getAllUsers();
         System.out.println(users);
+
+        ImageService imageService = ctx.getBean(ImageService.class);
+        List<Image> images = imageService.getAllImages();
+        System.out.println(images);
 
     }
 

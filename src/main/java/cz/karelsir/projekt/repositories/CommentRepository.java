@@ -1,5 +1,6 @@
 package cz.karelsir.projekt.repositories;
 
+import cz.karelsir.projekt.data.Comment;
 import cz.karelsir.projekt.data.Image;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by Ronik on 30. 4. 2017.
  */
 @Repository
-public interface ImageRepository extends CrudRepository<Image, Integer> {
-    @Query("select i from Image as i where i.url=:url")
-    public List<Image> findByUrl(@Param("url") String url);
+public interface CommentRepository extends CrudRepository<Comment, Integer> {
+    @Query("select c from Comment as c where c.text=:text")
+    public List<Comment> findByText(@Param("text") String text);
 }

@@ -41,13 +41,11 @@ public class Comment {
     public Comment(User user, Image image, String text) {
         this.user = user;
         this.image = image;
-        this.dateCreation = LocalDateTime.now();
-        this.dateLastEdit = this.dateCreation;
         this.likes = 0;
         this.text = text;
     }
 
-    public Comment(Integer id, User user, Image image, LocalDateTime date_creation, LocalDateTime date_lastedit, Integer likes, String text) {
+    public Comment(Integer id, User user, Image image, LocalDateTime dateCreation, LocalDateTime dateLastEdit, Integer likes, String text) {
         this.id = id;
         this.user = user;
         this.image = image;
@@ -154,5 +152,16 @@ public class Comment {
                 ", user=" + user +
                 ", image=" + image +
                 '}';
+    }
+
+    @PrePersist
+    public void prePersist(){
+        setDateCreation(LocalDateTime.now());
+        setDateLastEdit(getDateCreation());
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        setDateLastEdit(LocalDateTime.now());
     }
 }
