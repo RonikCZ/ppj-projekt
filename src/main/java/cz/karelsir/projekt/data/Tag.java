@@ -8,41 +8,33 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "tag")
-@IdClass(TagId.class)
 public class Tag implements Serializable {
 
-    @Id
-    @Column(name = "tag_title")
-    private String title;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "id_image")
-    private Image image;
+    @EmbeddedId
+    private TagId tagId;
 
     public Tag() {
-        this.image = new Image();
+
     }
 
     public Tag(Image image, String title) {
-        this.image = image;
-        this.title = title;
+        this.tagId = new TagId(image, title);
     }
 
     public String getTitle() {
-        return title;
+        return tagId.getTitle();
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.tagId.setTitle(title);
     }
 
     public Image getImage() {
-        return image;
+        return tagId.getImage();
     }
 
     public void setImage(Image image) {
-        this.image = image;
+        this.tagId.setImage(image);
     }
 
     @Override
@@ -52,22 +44,18 @@ public class Tag implements Serializable {
 
         Tag tag = (Tag) o;
 
-        if (title != null ? !title.equals(tag.title) : tag.title != null) return false;
-        return image != null ? image.equals(tag.image) : tag.image == null;
+        return tagId != null ? tagId.equals(tag.tagId) : tag.tagId == null;
     }
 
     @Override
     public int hashCode() {
-        int result = title != null ? title.hashCode() : 0;
-        result = 31 * result + (image != null ? image.hashCode() : 0);
-        return result;
+        return tagId != null ? tagId.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "Tag{" +
-                "title='" + title + '\'' +
-                ", image=" + image +
+                "tagId=" + tagId +
                 '}';
     }
 }

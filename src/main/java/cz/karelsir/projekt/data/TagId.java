@@ -1,20 +1,46 @@
 package cz.karelsir.projekt.data;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 
 /**
  * Created by Ronik on 30. 4. 2017.
  */
+@Embeddable
 public class TagId implements Serializable {
-    String title;
+
+    @ManyToOne
+    @JoinColumn(name = "id_image")
     Image image;
+
+    @Column(name = "tag_title")
+    String title;
 
     public TagId() {
         this.image = new Image();
     }
 
-    public TagId(String title, Image image) {
+    public TagId(Image image, String title) {
+        this.image = image;
         this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
         this.image = image;
     }
 

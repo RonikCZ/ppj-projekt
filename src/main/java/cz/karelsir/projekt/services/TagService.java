@@ -38,7 +38,7 @@ public class TagService {
     }
 
     public Tag getTag(Image image, String title) {
-        TagId tagId = new TagId(title, image);
+        TagId tagId = new TagId(image, title);
         return tagRepository.findOne(tagId);
     }
 
