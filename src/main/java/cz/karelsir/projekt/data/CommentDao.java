@@ -30,16 +30,19 @@ public class CommentDao {
         return crit.list();
     }
 
+    @Transactional
     public void update(Comment comment) {
         comment.setDateLastEdit(LocalDateTime.now());
         session().saveOrUpdate(comment);
     }
 
+    @Transactional
     public void create(Comment comment) {
         Integer id = (Integer) session().save(comment);
         comment.setId(id);
     }
 
+    @Transactional
     public void changeLikes(Comment comment, boolean like) {
         if (like){
             comment.setLikes(comment.getLikes()+1);
@@ -49,12 +52,14 @@ public class CommentDao {
         update(comment);
     }
 
+    @Transactional
     public void create(List<Comment> comments) {
         for (Comment comment:comments) {
             create(comment);
         }
     }
 
+    @Transactional
     public boolean deleteComment(int id_comment) {
         Query query = session().createQuery("delete from Comment where id_comment=:id_comment");
         query.setLong("id_comment", id_comment);
@@ -77,6 +82,7 @@ public class CommentDao {
         return (Comment) crit.uniqueResult();
     }
 
+    @Transactional
     public void deleteComments() {
         session().createQuery("delete from Comment").executeUpdate();
     }

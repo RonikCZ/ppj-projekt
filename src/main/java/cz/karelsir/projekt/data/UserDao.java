@@ -21,6 +21,7 @@ public class UserDao {
         return sessionFactory.getCurrentSession();
     }
 
+    @Transactional
     public void create(User user) {
         Integer id = (Integer) session().save(user);
         user.setId(id);
@@ -54,12 +55,14 @@ public class UserDao {
         return crit.list();
     }
 
+    @Transactional
     public boolean deleteUser(int id_user) {
         Query query = session().createQuery("delete from User where id_user=:id_user");
         query.setLong("id_user", id_user);
         return query.executeUpdate() == 1;
     }
 
+    @Transactional
     public void deleteUsers() {
         session().createQuery("delete from User").executeUpdate();
     }

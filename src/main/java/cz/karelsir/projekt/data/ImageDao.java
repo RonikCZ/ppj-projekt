@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @Transactional
 public class ImageDao {
 
@@ -31,6 +32,7 @@ public class ImageDao {
         return crit.list();
     }
 
+    @Transactional
     public void update(Image image) {
         image.setDateLastEdit(LocalDateTime.now());
         session().saveOrUpdate(image);
@@ -45,11 +47,13 @@ public class ImageDao {
         update(image);
     }
 
+    @Transactional
     public void create(Image image) {
         Integer id = (Integer) session().save(image);
         image.setId(id);
     }
 
+    @Transactional
     public void create(List<Image> images) {
         for (Image image:images) {
             create(image);
@@ -70,12 +74,14 @@ public class ImageDao {
         return (Image) crit.uniqueResult();
     }
 
+    @Transactional
     public boolean deleteImage(int id_image) {
         Query query = session().createQuery("delete from Image where id_image=:id_image");
         query.setLong("id_image", id_image);
         return query.executeUpdate() == 1;
     }
 
+    @Transactional
     public void deleteImages() {
         session().createQuery("delete from Image").executeUpdate();
     }

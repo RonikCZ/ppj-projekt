@@ -28,16 +28,19 @@ public class TagDao {
         return crit.list();
     }
 
+    @Transactional
     public void create(Tag tag) {
         session().save(tag);
     }
 
+    @Transactional
     public void create(List<Tag> tags) {
         for (Tag tag:tags) {
             create(tag);
         }
     }
 
+    @Transactional
     public boolean delete(Tag tag) {
         Query query = session().createQuery("delete from Tag where tag_title=:tag_title and id_image=:id_image");
         query.setString("tag_title", tag.getTitle());
@@ -56,7 +59,7 @@ public class TagDao {
         return (Tag) crit.uniqueResult();
     }
 
-
+    @Transactional
     public void deleteTags() {
         session().createQuery("delete from Tag").executeUpdate();
     }
