@@ -28,7 +28,7 @@ public class TagService {
     }
 
     public List<Tag> getTagsByImage(Image image) {
-        return StreamSupport.stream(tagRepository.findByImage(image).spliterator(), false).collect(Collectors.toList());
+        return StreamSupport.stream(tagRepository.findByTagIdImage(image).spliterator(), false).collect(Collectors.toList());
     }
 
     public void delete(Tag tag) {

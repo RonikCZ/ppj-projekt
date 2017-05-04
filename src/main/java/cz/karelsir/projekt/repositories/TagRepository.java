@@ -15,7 +15,5 @@ import java.util.List;
  */
 @Repository
 public interface TagRepository extends CrudRepository<Tag, TagId> {
-    @Query("select t from Tag as t where t.tagId.image=:image")
-    public List<Tag> findByImage(@Param("image") Image image);
-
+    public List<Tag> findByTagIdImage(@Param("image") Image image);
 }
