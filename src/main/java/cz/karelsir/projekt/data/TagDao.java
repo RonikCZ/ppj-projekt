@@ -17,11 +17,11 @@ public class TagDao {
     private NamedParameterJdbcOperations jdbc;
 
     public List<Tag> getTags() {
-
         return jdbc
                 .query("SELECT * FROM tag", new TagRowMapper());
     }
 
+    @Transactional
     public boolean create(Tag tag) {
 
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(
@@ -45,6 +45,7 @@ public class TagDao {
                         params);
     }
 
+    @Transactional
     public boolean delete(Tag tag) {
         MapSqlParameterSource params = new MapSqlParameterSource("id_image", tag.getId_image());
         params.addValue("tag_title", tag.getTag_title());

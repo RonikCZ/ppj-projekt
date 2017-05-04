@@ -89,6 +89,7 @@ public class CommentDao {
         return jdbc.update("update comment set comment_likes=:comment_likes where id_comment=:id_comment", params) == 1;
     }
 
+    @Transactional
     public void deleteComment(int id_comment) {
         String query = "DELETE FROM comment WHERE id_comment="+id_comment;
         jdbc.getJdbcOperations().execute(query);
@@ -110,6 +111,7 @@ public class CommentDao {
         return jdbc.queryForObject("SELECT * from comment WHERE text=:text", params, new CommentRowMapper());
     }
 
+    @Transactional
     public void deleteComments() {
         jdbc.getJdbcOperations().execute("DELETE FROM comment");
     }

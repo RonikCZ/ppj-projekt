@@ -92,6 +92,7 @@ public class ImageDao {
         return jdbc.update("update image set image_likes=:image_likes where id_image=:id_image", params) == 1;
     }
 
+    @Transactional
     public boolean delete(int id_image) {
         MapSqlParameterSource params = new MapSqlParameterSource("id_image", id_image);
 
@@ -114,11 +115,13 @@ public class ImageDao {
         return jdbc.queryForObject("select * from image where url=:url", params, new ImageRowMapper());
     }
 
+    @Transactional
     public void deleteImage(int id_image) {
         String query = "DELETE FROM image WHERE id_image="+id_image;
         jdbc.getJdbcOperations().execute(query);
     }
 
+    @Transactional
     public void deleteImages() {
         jdbc.getJdbcOperations().execute("DELETE FROM image");
     }

@@ -64,11 +64,13 @@ public class UserDao {
                 .query("select * from user", new UserRowMapper());
     }
 
+    @Transactional
     public void deleteUser(int id_user) {
         String query = "DELETE FROM user WHERE id_user="+id_user;
         jdbc.getJdbcOperations().execute(query);
     }
 
+    @Transactional
     public void deleteUsers() {
         jdbc.getJdbcOperations().execute("DELETE FROM user");
     }
