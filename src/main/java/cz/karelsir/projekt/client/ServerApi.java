@@ -11,12 +11,21 @@ import java.util.List;
  */
 public interface ServerApi {
 
-    public static final String OFFERS_PATH = "/offers";
-    public static final String OFFER_PATH = OFFERS_PATH + "/{id}";
     public static final String USERS_PATH = "/users";
     public static final String USER_PATH = USERS_PATH+ "/{id}";
+    public static final String IMAGES_PATH = "/images";
+    public static final String IMAGE_PATH = IMAGES_PATH + "/{id}";
 
     @GET(USERS_PATH)
     public List<User> showUsers();
+
+    @POST(USERS_PATH)
+    public void addUser(@Body User user);
+
+    @GET(USER_PATH)
+    public User getUser(@Path("id") int id);
+
+    @DELETE(USER_PATH)
+    public void deleteUser(@Path("id") int id);
 
 }

@@ -3,7 +3,6 @@ package cz.karelsir.projekt.controllers;
 import cz.karelsir.projekt.client.ServerApi;
 import cz.karelsir.projekt.controllers.exceptions.APIErrorMessage;
 import cz.karelsir.projekt.controllers.exceptions.APIException;
-import cz.karelsir.projekt.data.Image;
 import cz.karelsir.projekt.data.User;
 import cz.karelsir.projekt.services.CommentService;
 import cz.karelsir.projekt.services.ImageService;
