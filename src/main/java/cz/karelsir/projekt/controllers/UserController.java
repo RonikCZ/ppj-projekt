@@ -17,27 +17,17 @@ import java.util.List;
 /**
  * Created by Ronik on 20. 5. 2017.
  */
+
+@RestController
 public class UserController {
+    @Autowired
     private UserService userService;
+
+    @Autowired
     private ImageService imageService;
+
+    @Autowired
     private CommentService commentService;
-
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    @Autowired
-    public void setImageService(ImageService imageService) {
-        this.imageService = imageService;
-    }
-
-    @Autowired
-    public void setCommentService(CommentService commentService) {
-        this.commentService = commentService;
-    }
-
 
     @RequestMapping(value = ServerApi.USERS_PATH, method = RequestMethod.GET)
     public ResponseEntity<List<User>> showUsers() {
@@ -47,7 +37,7 @@ public class UserController {
 
     @RequestMapping(value = ServerApi.USERS_PATH, method = RequestMethod.POST)
     public ResponseEntity<User> addUser(@RequestBody User user) {
-        if (userService.getUser(user.getUsername()) != null) {
+        if (userService.exists(user.getId())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             userService.create(user);
