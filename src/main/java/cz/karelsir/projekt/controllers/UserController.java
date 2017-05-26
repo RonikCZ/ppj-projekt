@@ -58,8 +58,8 @@ public class UserController {
     @RequestMapping(value = ServerApi.USER_PATH, method = RequestMethod.DELETE)
     public ResponseEntity deleteUser(@PathVariable("id") int id) {
         if (userService.exists(id)) {
-            if (!imageService.getUserImages(userService.getUser(id)).isEmpty() &&
-                    !commentService.getCommentsByUser(userService.getUser(id)).isEmpty()) {
+            if (imageService.getUserImages(userService.getUser(id)).isEmpty() &&
+                    commentService.getCommentsByUser(userService.getUser(id)).isEmpty()) {
                 userService.deleteUser(id);
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             } else {

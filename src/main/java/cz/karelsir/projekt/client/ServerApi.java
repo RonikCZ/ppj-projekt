@@ -1,9 +1,11 @@
 package cz.karelsir.projekt.client;
 
 import cz.karelsir.projekt.data.Comment;
+import cz.karelsir.projekt.data.Image;
 import cz.karelsir.projekt.data.User;
 import retrofit.client.Response;
 import retrofit.http.*;
+import retrofit.mime.TypedFile;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public interface ServerApi {
     @DELETE(USER_PATH)
     public void deleteUser(@Path("id") int id);
 
+
     @GET(COMMENTS_PATH)
     public List<Comment> showComments();
 
@@ -43,7 +46,7 @@ public interface ServerApi {
     @POST(IMAGE_PATH + COMMENTS_PATH)
     public void addComment(@Body User user);
 
-    @POST(USER_PATH)
+    @POST(COMMENT_PATH)
     public User updateComment(@Path("id") int id, @Body Comment comment);
 
     @GET(COMMENT_PATH)
@@ -51,5 +54,28 @@ public interface ServerApi {
 
     @DELETE(COMMENT_PATH)
     public void deleteComment(@Path("id") int id);
+
+
+    @GET(IMAGES_PATH)
+    public List<Image> showImages();
+
+    @GET(USER_PATH + IMAGES_PATH)
+    public List<Image> showImagesByUser(@Path("id") int id);
+
+    @GET(IMAGE_PATH)
+    public Image getImage(@Path("id") int id);
+
+    @DELETE(IMAGE_PATH)
+    public void deleteImage(@Path("id") int id);
+
+    @Multipart
+    @POST(IMAGE_PATH)
+    public ImageStatus uploadImage(@Path("name") String name, @Part("data") TypedFile imageData);
+
+    @Streaming
+    @GET(IMAGE_PATH)
+    Response downloadImage(@Path("name") String name);
+
+
 
 }
