@@ -35,6 +35,11 @@ public class TagService {
         tagRepository.delete(tag);
     }
 
+    public boolean exists(Image image, String title) {
+        TagId tagId = new TagId(image, title);
+        return tagRepository.exists(tagId);
+    }
+
     public Tag getTag(Image image, String title) {
         TagId tagId = new TagId(image, title);
         return tagRepository.findOne(tagId);

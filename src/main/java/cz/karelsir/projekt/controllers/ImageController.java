@@ -77,7 +77,7 @@ public class ImageController {
     }
 
 
-    @RequestMapping(value = ServerApi.IMAGES_PATH, method = RequestMethod.POST)
+    @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.POST)
     public
     @ResponseBody
     ImageStatus uploadImage(@PathVariable("name") String name,
@@ -97,7 +97,7 @@ public class ImageController {
         return state;
     }
 
-    @RequestMapping(value = ServerApi.IMAGES_PATH, method = RequestMethod.GET)
+    @RequestMapping(value = ServerApi.IMAGE_PATH + "/data", method = RequestMethod.GET)
     public
     @ResponseBody
     HttpEntity<byte[]> downloadImage(@PathVariable("name") String name,

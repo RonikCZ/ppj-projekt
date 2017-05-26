@@ -2,6 +2,7 @@ package cz.karelsir.projekt.client;
 
 import cz.karelsir.projekt.data.Comment;
 import cz.karelsir.projekt.data.Image;
+import cz.karelsir.projekt.data.Tag;
 import cz.karelsir.projekt.data.User;
 import retrofit.client.Response;
 import retrofit.http.*;
@@ -20,6 +21,9 @@ public interface ServerApi {
     public static final String IMAGE_PATH = IMAGES_PATH + "/{id}";
     public static final String COMMENTS_PATH = "/comments";
     public static final String COMMENT_PATH = COMMENTS_PATH + "/{id}";
+    public static final String TAGS_PATH = "/tags";
+    public static final String TAG_PATH = TAGS_PATH + "/{id}";
+
 
     @GET(USERS_PATH)
     public List<User> showUsers();
@@ -73,9 +77,21 @@ public interface ServerApi {
     public ImageStatus uploadImage(@Path("name") String name, @Part("data") TypedFile imageData);
 
     @Streaming
-    @GET(IMAGE_PATH)
+    @GET(IMAGE_PATH + "/data")
     Response downloadImage(@Path("name") String name);
 
+
+    @GET(TAGS_PATH)
+    public List<Tag> showTags();
+
+    @GET(IMAGE_PATH + TAGS_PATH)
+    public List<Tag> showTagsByImage(@Path("id") int id);
+
+    @GET(TAG_PATH)
+    public Tag getTag(@Path("id") int id, @Path("tag") String tag);
+
+    @DELETE(TAG_PATH)
+    public void deleteTag(@Path("id") int id, @Path("tag") String tag);
 
 
 }
