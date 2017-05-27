@@ -7,6 +7,7 @@ import cz.karelsir.projekt.controllers.exceptions.APIErrorMessage;
 import cz.karelsir.projekt.controllers.exceptions.APIException;
 import cz.karelsir.projekt.data.Comment;
 import cz.karelsir.projekt.data.Image;
+import cz.karelsir.projekt.data.User;
 import cz.karelsir.projekt.services.CommentService;
 import cz.karelsir.projekt.services.ImageService;
 import cz.karelsir.projekt.services.TagService;
@@ -77,40 +78,54 @@ public class ImageController {
     }
 
 
-    @RequestMapping(value = ServerApi.IMAGE_PATH, method = RequestMethod.POST)
-    public
-    @ResponseBody
-    ImageStatus uploadImage(@PathVariable("name") String name,
-                            @RequestParam("data") MultipartFile imageData,
-                            HttpServletResponse response) {
+    @RequestMapping(value = ServerApi.IMAGES_PATH, method = RequestMethod.POST)
+    public ResponseEntity<ImageStatus> uploadImage(
+            @RequestParam("id") int id,
+            @RequestParam("name") String name,
+            @RequestParam("data") MultipartFile imageFile
+    ) {
+        if (!userService.exists(id)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        User user = userService.getUser(id);
+        int nextId = imageService.getMaxId()+1;
+        String fileName = nextId + "_" + name;
 
         ImageStatus state = new ImageStatus(ImageStatus.ImageState.READY);
 
         setFileManager();
 
         try {
-            imageDataMgr.saveImageData(name, imageData.getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
+            imageDataMgr.saveImageData(fileName, imageFile.getInputStream());
+            Image image = new Image(user,fileName,name);
+            imageService.create(image);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return state;
+        return new ResponseEntity<>(state, HttpStatus.OK);
     }
 
     @RequestMapping(value = ServerApi.IMAGE_PATH + "/data", method = RequestMethod.GET)
     public
     @ResponseBody
-    HttpEntity<byte[]> downloadImage(@PathVariable("name") String name,
+    HttpEntity<byte[]> downloadImage(@PathVariable("id") int id,
                                      HttpServletResponse response) {
+        if (!imageService.exists(id)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Image requestedImage = imageService.getImage(id);
+
 
         byte[] image = new byte[0];
         HttpHeaders headers = new HttpHeaders();
 
         setFileManager();
-        if (imageDataMgr.imageExists(name)) {
+        if (imageDataMgr.imageExists(requestedImage.getUrl())) {
             try {
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                imageDataMgr.copyImageData(name, bos);
+                imageDataMgr.copyImageData(requestedImage.getUrl(), bos);
                 image = bos.toByteArray();
                 headers.setContentLength(image.length);
                 String mime = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(image));

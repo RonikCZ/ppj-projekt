@@ -5,6 +5,7 @@ import cz.karelsir.projekt.data.Image;
 import cz.karelsir.projekt.data.User;
 import cz.karelsir.projekt.repositories.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,6 +54,8 @@ public class ImageService {
     public Image getImage(String url) {
         return imageRepository.findByUrl(url).get(0);
     }
+
+    public int getMaxId(){ return imageRepository.findTop1ById();}
 
     public List<Image> getUserImages(User user) {
         return StreamSupport.stream(imageRepository.findByUser(user).spliterator(), false).collect(Collectors.toList());

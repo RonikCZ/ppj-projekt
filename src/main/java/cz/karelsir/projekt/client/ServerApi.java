@@ -16,7 +16,7 @@ import java.util.List;
 public interface ServerApi {
 
     public static final String USERS_PATH = "/users";
-    public static final String USER_PATH = USERS_PATH+ "/{id}";
+    public static final String USER_PATH = USERS_PATH + "/{id}";
     public static final String IMAGES_PATH = "/images";
     public static final String IMAGE_PATH = IMAGES_PATH + "/{id}";
     public static final String COMMENTS_PATH = "/comments";
@@ -73,13 +73,12 @@ public interface ServerApi {
     public void deleteImage(@Path("id") int id);
 
     @Multipart
-    @POST(IMAGE_PATH)
-    public ImageStatus uploadImage(@Path("name") String name, @Part("data") TypedFile imageData);
+    @POST(IMAGES_PATH)
+    public ImageStatus uploadImage(@Part("id") int id, @Part("name") String name, @Part("data") TypedFile imageData);
 
     @Streaming
     @GET(IMAGE_PATH + "/data")
-    Response downloadImage(@Path("name") String name);
-
+    Response downloadImage(@Path("id") int id);
 
     @GET(TAGS_PATH)
     public List<Tag> showTags();
